@@ -1,9 +1,9 @@
 # Conceitos básicos
 ## NameSpace
-![[Pasted image 20210305142047.png]]
+![Pasted image 20210305142047.png](Pasted%20image%2020210305142047.png)
 
 ## CGroup:
-![[Pasted image 20210305142011.png]]
+![Pasted image 20210305142011.png](Pasted%20image%2020210305142011.png)
 
 ## Container:
 Conjunto de processos e recursos agrupados e isolados dos demais grupos
@@ -13,7 +13,7 @@ Possui:
     - Uma "foto" do sistema de arquivos com App e suas dependencias instalados
     - Comandos a serem executados
 Vai ser executado em algo parecido com NameSpace e CGroups
-![[Pasted image 20210305141729.png]]
+![Pasted image 20210305141729.png](Pasted%20image%2020210305141729.png)
 
 
 # Docker
