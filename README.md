@@ -5,6 +5,6 @@ Repo com minhas notas de aula do curso [Docker and Kubernetes: The Complete Guid
 - [[Docker|Notas sobre Docker]]
 - [[Kubernetes|Notas sobre Kubernetes]]
 - Notas sobre Continuous Integration
-    - [[Continous Integration with Tracis-CI + AWS|Docker + Tracis-CI + AWS]]
+    - [[Travis-CI + AWS/Travis-CI + AWS|Docker + Tracis-CI + AWS]]
 
 - [[Docker & Kubernetes - Erros comuns e Boas praticas]]

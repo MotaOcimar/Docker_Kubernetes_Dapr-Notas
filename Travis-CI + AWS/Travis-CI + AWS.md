@@ -1,10 +1,10 @@
-# Continous Integration with Tracis-CI + AWS
+# Continous Integration with Travis-CI + AWS
 
 ## General Flow:
-![[Pasted image 20210311101819.png]]
+![[Media/Pasted image 20210311101819.png]]
 
 ### Travis:
-![[Pasted image 20210311103502.png]]
+![[Media/Pasted image 20210311103502.png]]
 #### Instruindo Travis o que fazer:
 Cria um arquivo chamado ```.travis.yml``` no diretório principal:
 ~~~yml
@@ -111,7 +111,7 @@ deploy:
 
 #### ElastiCache
 ##### Why ElastiCache
-![[Pasted image 20210311201835.png]]
+![[Media/Pasted image 20210311201835.png]]
 
 ##### ElastiCache Redis Creation
 1.  Go to AWS Management Console and use Find Services to search for ElastiCache
@@ -125,7 +125,7 @@ deploy:
 
 #### Relational Database Servise
 ##### Why RDS Database 
-![[Pasted image 20210311203340.png]]
+![[Media/Pasted image 20210311203340.png]]
 ##### RDS Database Creation
 1.  Go to AWS Management Console and use Find Services to search for RDS
 2.  Click Create database button
@@ -142,8 +142,8 @@ deploy:
 
 
 #### Custom Security Group
-![[Pasted image 20210311204822.png]]
-![[Pasted image 20210312091720.png]]
+![[Media/Pasted image 20210311204822.png]]
+![[Media/Pasted image 20210312091720.png]]
 ##### Creating a Custom Security Group
 
 
