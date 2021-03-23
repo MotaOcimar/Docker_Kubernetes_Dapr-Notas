@@ -22,4 +22,12 @@
 - São dois projetos completamente separados mas com a mesma intenção. Ao fazer uso de um deles, se sertifique de está olhando para a documentação correta:
     - [ingress-nginx](https://github.com/kubernetes/ingress-nginx)
     - [kubernetes-ingress](https://github.com/nginxinc/kubernetes-ingress)
+
+### Atulizando uma imagem no Docker-hub e no Kubernetes
+[**PROBLEMA**](https://github.com/kubernetes/kubernetes/issues/33664): Se uma imagem for atulizada sem atualizar as config-files dos pods que as usam o kubernetes **não** vai atualizar a imagem em uso nos pods (mesmo que esteja sendo usado a tag 'latest' por padrão).
+
+**Contorno**:
+1. Colocar 2 tags: a ```latest``` e ```$GIT_SHA```, em que ```$GIT_SHA``` é o valor de uma variável de ambiente com o hash que identifica o commit atual (```GIT_SHA=$(git rev-parse HEAD)```).
+2. Em seguida, usa um comando imperativo para atualizar a imagem (não funcionaria apenas com a tag ```latest``` pois a escrita é a mesma e ele não percebe que algo deve ser atualizado): ```kubectl set image <tipo do objeto>/<nome do objeto> <nome do pod>=<docker-id>/<repositorio>:$GIT_SHA```
+
     

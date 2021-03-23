@@ -9,34 +9,34 @@ Para gerenciar os multipos containers nas multiplas máquinas:
 
 ## Alguns conceitos:
 ### Node
-![Pasted image 20210315102218.png](Pasted%20image%2020210315102218.png)
+![[Pasted image 20210315102218.png]]
 - Maquina real ou virtual que abriga um ou mais containers
 ### Cluster
-![Pasted image 20210315102003.png](Pasted%20image%2020210315102003.png)
+![[Pasted image 20210315102003.png]]
 - É formado por um "Master" e o conjunto de um ou mais nodes
 
 ### Object
 - "Coisas" que existem dentro de um cluster rodando Kubernetes
-![Pasted image 20210315112623.png](Pasted%20image%2020210315112623.png)
+![[Pasted image 20210315112623.png]]
 
 #### Pod
 - Grupo de containers com propósitos muito muito em comum
     - Eles não fazem sentido um sem o outro
     ex.:
-    ![Pasted image 20210315115411.png](Pasted%20image%2020210315115411.png)
+    ![[Pasted image 20210315115411.png]]
     - Muitas vezes acaba de um pod abrigar apenas **um único** container
 - É a menor "coisa" que conseguimos fazer deploy ao usar Kubernetes
     (Ou seja NÃO dá para fazer deploy de um container "nu e cru" ao usar kubernetes)
 ##### Limitações
 Apesar de dá para fazer deploy de Pods diretamente, geralmente usa-se o objeto Deployment, devido sua maior flexibilidade de updade
-![Pasted image 20210316122456.png](Pasted%20image%2020210316122456.png)
-![Pasted image 20210316122614.png](Pasted%20image%2020210316122614.png)
+![[Pasted image 20210316122456.png]]
+![[Pasted image 20210316122614.png]]
     
 #### Deployment
 - Executa um ou mais pods identicos
 - Monitora o estado de cada pod e atualiza caso necessario
 - Em gerel, se usa tanto para dev quanto para produção
-![Pasted image 20210316123118.png](Pasted%20image%2020210316123118.png)
+![[Pasted image 20210316123118.png]]
     
 #### Service
 - Comumente usado para configurar networking no cluster
@@ -45,17 +45,17 @@ Apesar de dá para fazer deploy de Pods diretamente, geralmente usa-se o objeto 
 ##### NodePort
 - **APENAS PARA DEV** não usar para produção
 - Propósito: expor portas do node para pods selecionados
-    ![Pasted image 20210319102209.png](Pasted%20image%2020210319102209.png)
+    ![[Pasted image 20210319102209.png]]
 
 ##### ClusterIP
 - Expõe um conjunto de pods a outro objeto **dentro** do cluster
     - Logo ainda **não** é possível acessá-lo de fora do cluster
-    ![Pasted image 20210319102624.png](Pasted%20image%2020210319102624.png)
+    ![[Pasted image 20210319102624.png]]
 ##### LoadBalancer
 - Considerado por alguns como **legacy**
 - Expõe um objeto a um Load Balancer externo
 - Esse objeto tem que ser capaz de fazer o routing interno
-    ![Pasted image 20210319110338.png](Pasted%20image%2020210319110338.png)
+    ![[Pasted image 20210319110338.png]]
     
 ##### Ingress
 - Conjunto de instruções de routing a ser executado por um Ingress-Controller
@@ -63,22 +63,22 @@ Apesar de dá para fazer deploy de Pods diretamente, geralmente usa-se o objeto 
     - Isso não tira a nececidade de um Load Balancer externo, mas adiciona uma camada de extra de routing e controle
     - Facilita a configuração, pois você apenas passa o estado desejado atravez do Ingress que o Controller conficura o Load Balancer para você
     
-    ![Pasted image 20210319110140.png](Pasted%20image%2020210319110140.png)
+    ![[Pasted image 20210319110140.png]]
 
 #### Volume
 - Um objeto que possibilita um container armazenar dados fora de si mesmo, mas ainda dentro do pod
-    ![Pasted image 20210318110159.png](Pasted%20image%2020210318110159.png)
+    ![[Pasted image 20210318110159.png]]
 - Caso o container morra, mas o pod não, os dados persistem. Porém se o pode morrer, os dados também se vão. Logo **não** é tão seguro.
 - Obs.: Não confundir com o termo "volume" usando em Docker, que se refere a um mecanismo de acesso de dados.
-    ![Pasted image 20210318105552.png](Pasted%20image%2020210318105552.png)
+    ![[Pasted image 20210318105552.png]]
     
 #### Persistent Volume
 - Um objeto **fora do pod** que pode armazenar dados para diferentes pods
-    ![Pasted image 20210318111536.png](Pasted%20image%2020210318111536.png)
+    ![[Pasted image 20210318111536.png]]
 - Caso o container ou o pod morram, os dados persistem.
 
 #### Persistent Volume Claim
-- Extremamente semelhante ao [Kubernetes#Persistent Volume | Persistent Volume](Kubernetes#Persistent%20Volume%20%7C%20Persistent%20Volume.md), mas o tamanho de armazenamento pode ser providenciado dinamicamente.
+- Extremamente semelhante ao [[Kubernetes#Persistent Volume | Persistent Volume]], mas o tamanho de armazenamento pode ser providenciado dinamicamente.
 
 #### Secret
 - Armazena variáveis de ambiente que devem ser mantidas em segredo.
@@ -87,13 +87,13 @@ Apesar de dá para fazer deploy de Pods diretamente, geralmente usa-se o objeto 
 - É um gerenciador da máquina virtual que funcionará como cluster
 
 #### Dev vs Production
-![Pasted image 20210315104012.png](Pasted%20image%2020210315104012.png)
+![[Pasted image 20210315104012.png]]
 - Minikube é usado localmente apenas, para desenvolviment.
 - Na produção, geralmente já há outros gerenciadores de clusters
     - Mas você pode fazer isso por conta própria se quiser
 
 #### Minikube & Kubernetes
-![Pasted image 20210315104120.png](Pasted%20image%2020210315104120.png)
+![[Pasted image 20210315104120.png]]
 - Kubernetes: Gerencia os conteiners nos nós
 - Minikube: Gerencia as VM em que os nós rodam
 
@@ -119,7 +119,7 @@ Apesar de dá para fazer deploy de Pods diretamente, geralmente usa-se o objeto 
 Obs.: funciona também para alguns outros comandos ```docker```
 
 ## Docker-compose -> Kubernetes
-![Pasted image 20210315105217.png](Pasted%20image%2020210315105217.png)
+![[Pasted image 20210315105217.png]]
 
 ### 1. Garantir que as imagens usadas já estão construídas e no docker-hub
 ### 2. Criar config-files para cada objeto
@@ -241,7 +241,7 @@ spec:
 
 #### Service
 ##### NodePort
-![Pasted image 20210315125506.png](Pasted%20image%2020210315125506.png)
+![[Pasted image 20210315125506.png]]
 
 ~~~yaml
 apiVersion: v1  # Define o conjuto de tipos objetos que posso
@@ -333,7 +333,7 @@ spec:
 
 #### Secret
 - Neste caso **NÃO** se usa config-file, mas sim um comando imperativo:
-    - ```kubectl create secrete generic <nome do objeto> --from-literal <KEY>=<value>```
+    - ```kubectl create secret generic <nome do objeto> --from-literal <KEY>=<value>```
 
 
 ### 3. Aplica as configurações de cada objeto
