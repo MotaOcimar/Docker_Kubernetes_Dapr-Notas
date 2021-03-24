@@ -111,7 +111,7 @@ deploy:
 
 #### ElastiCache
 ##### Why ElastiCache
-![[Media/Pasted image 20210311201835.png]]
+![Media/Pasted image 20210311201835.png](Media/Pasted%20image%2020210311201835.png)
 
 ##### ElastiCache Redis Creation
 1.  Go to AWS Management Console and use Find Services to search for ElastiCache
@@ -125,7 +125,7 @@ deploy:
 
 #### Relational Database Servise
 ##### Why RDS Database 
-![[Media/Pasted image 20210311203340.png]]
+![Media/Pasted image 20210311203340.png](Media/Pasted%20image%2020210311203340.png)
 ##### RDS Database Creation
 1.  Go to AWS Management Console and use Find Services to search for RDS
 2.  Click Create database button
