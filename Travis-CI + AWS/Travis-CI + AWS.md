@@ -37,7 +37,7 @@ after_success:
   # Antes, é preciso que no site do travis, nas configurações do repositório,
   # sejam adicionadas as variáveis de ambiente $DOCKER_PASS e $DOCKER_ID
   # correspondente a sua conta no docker-hub
-  - echo "$DOCKER_PASS" | docker login -u "$DOCKER_ID" --password--stdin
+  - echo "$DOCKER_PASS" | docker login -u "$DOCKER_ID" --password-stdin
   # Push those image sto docker hub
   - docker push <hocker-hub username>/<repository>
 

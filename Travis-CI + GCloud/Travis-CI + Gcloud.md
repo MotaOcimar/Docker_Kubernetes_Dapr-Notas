@@ -58,7 +58,7 @@ Primeiro crie um novo projeto,então faça o seguinte:
 ### Configurar variáveis de ambiente no cluster:
 1. Abre um terminal shell na plataforma online do google cloud
 2. Executa os seguintes comandos:
-~~~sh
+~~~bash
 # Diz ao GCloud em qual projeto usar essas configurações
 # Deve-se se passar o ID do projeto, e não seu nome
 gcloud config set project <ID do projeto>
@@ -70,6 +70,20 @@ gcloud container clusters get-credentials <nome do seu cluster>
 3. Cria um objeto secret com a variável desejada:
  ```kubectl create secret generic <nome do objeto> --from-literal <KEY>=<value>```
 
+
+### Habilitar o Ingress-Nginx no GCloud:
+Em um shell dentro do seu projeto no GCLoud, segue os seguintes passos:
+1. Instala o Helm
+~~~bash
+curl \-fsSL \-o get\_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+chmod 700 get\_helm.sh
+./get\_helm.sh
+~~~
+2. Instala o Ingress-Nginx:
+~~~bash
+helm repo add ingress\-nginx https://kubernetes.github.io/ingress-nginx
+helm install my\-release ingress\-nginx/ingress\-nginx
+~~~
 
 ## Travis:
 ![](Media/Pasted%20image%2020210322132803.png)
@@ -119,7 +133,7 @@ before_install:
   # Antes, é preciso que no site do travis, nas configurações do repositório,
   # sejam adicionadas as variáveis de ambiente $DOCKER_PASS e $DOCKER_ID
   # correspondente a sua conta no docker-hub
-  - echo "$DOCKER_PASS" | docker login -u "$DOCKER_ID" --password--stdin
+  - echo "$DOCKER_PASS" | docker login -u "$DOCKER_ID" --password-stdin
   # Monta o arquivo de teste
   - docker build -t test_image -f <caminho para o Dockerfile.dev> <diretório do Dockerfile.dev>
 

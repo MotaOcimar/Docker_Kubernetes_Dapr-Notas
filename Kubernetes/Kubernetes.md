@@ -280,9 +280,10 @@ spec:
 ~~~
 
 ##### Ingress
+Usando ```apiVersion: networking.k8s.io/v1beta1```:
 ~~~yaml
-apiVersion: extensions/v1 # Define o conjuto de tipos objetos que posso
-                          # criar com esse arquivo
+apiVersion: networking.k8s.io/v1beta1 # Define o conjuto de tipos objetos que posso
+                                                  # criar com esse arquivo
 kind: Ingress
 metadata:
   name: <nome que você deseja para esse objeto>
@@ -312,6 +313,45 @@ spec:
               servicePort: <porta usada nesse serviço>
 ~~~
 
+Usando ```apiVersion: networking.k8s.io/v1``` (mais recente):
+~~~yaml
+apiVersion: networking.k8s.io/v1 # Define o conjuto de tipos objetos que posso
+                                 # criar com esse arquivo
+kind: Ingress
+metadata:
+  name: <nome que você deseja para esse objeto>
+  annotations:
+    # Diz para o kubernetes criar um ingress controler baseado no projeto nginx
+    kubernetes.io/ingress.class: 'nginx'
+    # Diz para usar regex
+    nginx.ingress.kubernetes.io/use-regex: 'true'
+    # "Reescreve" as rotas paraque começem por /
+    # Ex.: '/api' -> '/'
+    # Assim no servidor de destino não será necessário escrever a rota por completo
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+spec:
+  # Define as regras de routing
+  rules:
+    - http:
+        paths:
+         # rotas com '/'
+          - pathType: Prefix
+            path: /?(.*)
+            backend:
+              service:
+                name: <serviço para o qual será redirecionado>
+                port: 
+                  number: <porta usada nesse serviço>
+          # outras rotas
+          - pathType: Prefix
+            path: /<sua rota>/?(.*)
+            backend:
+              service:
+                name: <serviço para o qual será redirecionado>
+                port: 
+                  number: <porta usada nesse serviço>
+~~~
+
 #### Persistent Volume Claim
 ~~~yaml
 apiVersion: v1  # Define o conjuto de tipos objetos que posso
@@ -328,7 +368,6 @@ spec:
   resources:
     requests:
       storage: <numedo de gigas de armazenamento>Gi
-
 ~~~
 
 #### Secret
@@ -339,6 +378,46 @@ spec:
 ### 3. Aplica as configurações de cada objeto
 - Usa o comando ```kubectl apply -f <nome do config-file ou da pasta com eles>``` para cada objeto ou para a pasta em que todos eles se encontram
 
+### Extra: Live changes Usando o Skaffold
+Permitir que mudanças nos arquivos editados durante o development surtam efeito imediato na aplicação, sem precisar reconstruir a imagem (assim como o uso de "Volumes Docker"  possibilitava).
+
+1. [Instala o Skaffold](https://skaffold.dev/docs/install/)
+2. Cria um arquivo ```skaffold.yaml``` no diretório principal do app
+```yaml
+apiVersion: skaffold/v2beta12
+kind: Config
+deploy:
+  kubectl:
+    manifests:
+      # Lista as config-files do Kubernetes
+      # Pode ser simplismente a pasta com eles: ./k8s/*
+      # CUIDADO: o skaffold deleta os objetos assim que ele é dechado
+      # então evite adicionar config-files de objetos que você quer manter
+      # em execução
+      - <Config-file>
+build:
+  local:
+    push: false # Evitar que as modificações sejam enviadas para o docker-hub
+  
+  # Lista as imagens a serem gerenciadas pelo Skaffold
+  artifacts:
+    - image: <Docker-Id>/<Repository>
+      context: <folder com o Dockerfile dessa imagem>
+      docker:
+        dockerfile: <Dockerfile de desenvolvimento dessa imagem> # Geralmente Dockerfile.dev
+      # Diz que arquivos sincronizar entre a máqina local e o pod
+      sync:
+        manual:
+          - src: "<caminho para um arquivo a ser modificado>"
+            dest: <diretório de destino>
+          # Exemplo:
+          - src: "src/**/*.css"
+            dest: .
+          - src: "src/**/*.html"
+            dest: .
+```
+
+3. Executa ```scaffold dev```
 ## Alguns comandos úteis
 ### Obeter os objetos de um certo tipo
 ```kubectl get <object-name-in-plural>```

@@ -2,7 +2,7 @@
 
 Repo com minhas notas de aula do curso [Docker and Kubernetes: The Complete Guide](https://www.udemy.com/course/docker-and-kubernetes-the-complete-guide/)
 
-- [[Docker|Notas sobre Docker]]
+- [Notas sobre Docker](Docker/Docker.md)
 - [[Kubernetes|Notas sobre Kubernetes]]
 - Notas sobre Continuous Integration
     - [Travis-CI + AWS/Travis-CI + AWS|Docker + Tracis-CI + AWS](Travis-CI%20+%20AWS/Travis-CI%20+%20AWS%7CDocker%20+%20Tracis-CI%20+%20AWS.md)
