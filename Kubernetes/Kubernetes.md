@@ -78,7 +78,7 @@ Apesar de dá para fazer deploy de Pods diretamente, geralmente usa-se o objeto 
 - Caso o container ou o pod morram, os dados persistem.
 
 #### Persistent Volume Claim
-- Extremamente semelhante ao [Persistent Volume](Kubernetes.md#Persistent%20Volume), mas o tamanho de armazenamento pode ser providenciado dinamicamente.
+- Extremamente semelhante ao [Persistent Volume](#persistent-volume), mas o tamanho de armazenamento pode ser providenciado dinamicamente.
 
 #### Secret
 - Armazena variáveis de ambiente que devem ser mantidas em segredo.
