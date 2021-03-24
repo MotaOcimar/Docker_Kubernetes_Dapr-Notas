@@ -188,7 +188,7 @@ services:
 
 ## Passo 2: Executando
 - Iniciar os conteiners: ```docker-compose up```
-    - Em background: ````docker-compose up -d``
+    - Em background: ```docker-compose up -d```
     - Evitando uso de cache ```docker-compose up --build```
 - Finalizar os conteiners: ```docker-compose down```
 
