@@ -23,21 +23,21 @@ Podem ser dos seguintes tipos:
 Endereça desafios em comum.
 Podem ser usados independetemente.
 
-1. Service-to-Service Invocation
+1. Service-to-Service Invocation\
 	Intermedeia a chamada e comunicação entre serviços
-2. State Manegement
+2. State Manegement\
 	Garantir a recuperabilidade de um estado do microserviço mesmo em caso de falha
-3. Publish and Subscribe
+3. Publish and Subscribe\
 	Gerencia a troca de mensagens entre os serviços
-4. Resource binding and triggers
+4. Resource binding and triggers\
     Dispar uma execução com base em algo observado, como uma mensagem recebida ou mudança no banco de dados
-5. Actors
+5. Actors\
     Uma padronização de objetos stateful e stateless para tornar concorrencia e encapsulação de dados/estados mais simples.
-6. Observabilidade / Distributed tracking
+6. Observabilidade / Distributed tracking\
     Faz um tracing dos eventos correlatos mesmo que eles sejam de seriços distintos.
-7. Secrets
+7. Secrets\
     Gerencia dados sensíveis como autenticação, OAuth, tokenização, etc
-8. Extensibilidade
+8. Extensibilidade\
     Extender as funcionalidades do Dapr
 
 ## Arquitetura _sidecar_
