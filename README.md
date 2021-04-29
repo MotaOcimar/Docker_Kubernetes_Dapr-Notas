@@ -1,5 +1,6 @@
-# Docker & Kubernetes - Notas de aula
+# Docker, Kubernetes e Dapr - Notas de aprendizado
 
+## Docker & Kubernetes
 Minhas notas de aula do curso [Docker and Kubernetes: The Complete Guide](https://www.udemy.com/course/docker-and-kubernetes-the-complete-guide/)
 
 - [Notas sobre Docker](Docker/Docker.md)
@@ -10,6 +11,9 @@ Minhas notas de aula do curso [Docker and Kubernetes: The Complete Guide](https:
 
 - [Docker & Kubernetes - Erros comuns e Boas praticas](Docker%20&%20Kubernetes%20-%20Erros%20comuns%20e%20Boas%20praticas.md)
 
-# Dapr
+## Dapr
 
-Notas de aprendizado com base no [getting started](https://docs.dapr.io/getting-started/) 
+Notas de aprendizado com base no [getting started](https://docs.dapr.io/getting-started/)
+
+- [Dapr  - Ideias principais](Dapr/Dapr%20%20-%20Ideias%20principais.md)
+- [Dapr - Implementacao](Dapr/Dapr%20-%20Implementacao.md)
