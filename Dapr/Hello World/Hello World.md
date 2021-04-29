@@ -1,4 +1,4 @@
-# Hello World em JS com Dapr
+# Hello World
 
 **Objetivos**:
 - Aprender a rodar o Dapr localmente;
@@ -8,9 +8,12 @@
 
 ![Architecture Diagram](https://github.com/dapr/quickstarts/raw/master/hello-world/img/Architecture_Diagram.png)
 
-## 1. Criando um servidor simples em `JavaScript`
-Vamos usar o `express` para gerenciar os métodos HTTP e `bodyParser` para converter o corpo das requisições para `json` :
-Por simplicidade, também vamos usar um array como se fosse um banco de dados. Em um projeto real isso deve ser alterado para também usar um banco de dados real.
+## 1. Criando um servidor simples com Node.js
+De maneira genérica, um servidor _stateful_ recebe uma ordem e é capaz de ezecutar sua tarefa de acordo com a ordem recebida e o seu estado atual.
+Vamos, então criar um servidor _stateful_ simples que inicia em um estado de valor `0` e recebe ordens numéricas. A tarefa do servidor é simplismente ir para o estado de valor igual ao número recebido acrecido o valor do estado atual.
+    `proximo estado = estado atual + N° da ordem`
+
+Para criar nosso servidor, vamos usar o `express` para gerenciar os métodos HTTP e `bodyParser` para converter o corpo das requisições para `json`:
 ~~~js
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -20,84 +23,31 @@ app.use(bodyParser.json());
 
 const port = 3000;
 
-var fakeDB = [];
+var estadoAtual = 0;
 
-// Métodos HTTP vão aqui
-
-app.listen(port, () => console.log(`Node App listening on port ${port}!`));
-~~~
-
-Começando pelo `get`:
-~~~js
-app.get('/order', (req, res) => {
-    res.status(200).send(fakeDB);
+app.get('/state', (req, res) => {
+    res.status(200).send("Current state: " + estadoAtual);
 });
-~~~
 
-Então o `post`:
-~~~js
 app.post('/neworder', (req, res) => {
     const data = req.body.data;
     const orderId = data.orderId;
     console.log("Got a new order! Order ID: " + orderId);
     
-    try {
-        fakeDB.push(data)   ;
-        console.log("Successfully saved in a fake DB");
-        res.status(200).send("Successfully saved in a fake DB");
-    } catch (error) {
-        console.log(error);
-        res.status(500).send({message: error.message});
-    }
+    estadoAtual = estadoAtual + parseInt(orderId);
+    res.status(200).send("State successfully updated.\nCurrent state: " + estadoAtual);
 });
+
+app.listen(port, () => console.log(`Node App listening on port ${port}!`));
 ~~~
 
-O `put`:
-~~~js
-app.put('/order/:id', (req, res) => {
-    console.log(req.body);
-    const data = req.body.data;
-    const key = req.params.id;
-    const orderName = data.name;
-    console.log("Got a new name " + orderName + " for the order with ID " + key + "!");
-
-    try {
-        var pos = fakeDB.findIndex((obj) => obj.orderId == key);
-        console.log(pos)
-        fakeDB[pos].name = orderName;
-        console.log("Successfully updated in the fake DB");
-        res.status(200).send("Successfully updated in the fake DB");
-    } catch (error) {
-        console.log(error);
-        res.status(500).send({message: error.message});
-    }
-});
-~~~
-
-Por fim o `delete`:
-~~~js
-app.delete('/order/:id', (req, res) => {
-    const key = req.params.id;
-    console.log('Invoke Delete for ID ' + key);
-
-    try {
-        var pos = fakeDB.findIndex((obj) => obj.orderId == key);
-        fakeDB.splice(pos, 1);
-        console.log("Successfully deleted of the fake DB");
-        res.status(200).send("Successfully deleted of the fake DB");
-    } catch (error) {
-        console.log(error);
-        res.status(500).send({message: error.message});
-    }
-});
-~~~
-
-Até aqui, o arquivo com nosso servidor deverá se parecer com [este](server.js).
 
 ## Utilizando o Dapr para salvar estados
-
-The `dapr run` command looks for the default components directory which for Linux/MacOS is `$HOME/.dapr/components` and for Windows is `%USERPROFILE%\.dapr\components` which holds yaml definition files for components Dapr will be using at runtime. When running locally, the yaml files which provide default definitions for a local development environment are placed in this default components directory. Review the `statestore.yaml` file in the `components` directory:
-
+Até então, nosso servidor funciona bem. Mas caso ocorra alguma falha, e o serviço seja reiniciado, o estado atual será perdido.\
+Com o Dapr isso pode ser contornado usando seu [componente de gerenciamento de estado](https://github.com/dapr/components-contrib/tree/master/state).
+Quando instalado localmente, as configurações dos componentes Dapr se encontram na pasta `$HOME/.dapr/components` para Linux/MacOS e `%USERPROFILE%\.dapr\components` para Windows. Essa pasta contem arquivos de definições yaml para cada componente.\
+Para o componente de gerenciamento de estado, a instalação normal do Dapr (v1.1 enquanto escrevo isso) já fornece uma configuração padão, utilizando o [Redis](https://redis.io/) como para o armazenamento do estado (_state store_).\
+Na pasta de componentes, então, já deve ter um arquivo `statestore.yaml` com definições semelhantes a essa:
 ```yaml
 apiVersion: dapr.io/v1alpha1
 kind: Component
@@ -105,5 +55,17 @@ metadata:
   name: statestore
 spec:
   type: state.redis
-  version: v1
+  metadata:
+  - name: redisHost
+    value: localhost:6379
+  - name: redisPassword
+    value: ""
+  - name: actorStateStore
+    value: "true"
 ```
+
+Legal! Para o nosso exemplo então podemos partir direto para o uso do componente de estado sem nos preocuparmos tanto com sua configuração!
+
+
+
+
