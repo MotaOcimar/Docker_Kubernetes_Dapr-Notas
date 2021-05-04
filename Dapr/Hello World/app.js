@@ -35,9 +35,6 @@ app.post('/neworder', (req, res) => {
     if (isNaN(orderNum)) {
         res.status(500).send("NaN orderNum");
     } else {
-
-        var sum = 0;
-
         // Obtem o estado atual
         fetch(`${stateUrl}/variables`)
         .then((response) => {
@@ -48,15 +45,14 @@ app.post('/neworder', (req, res) => {
             return response.text();
         }).then((value) => {
             var variables = JSON.parse(value);
-            sum = variables.sum + parseInt(orderNum); 
 
             // Salva o novo estado
             const state = [{
                 key: "variables",
                 value: {
-                    sum: sum
+                    sum: variables.sum + parseInt(orderNum)
                 }
-            }]
+            }];
 
             fetch(stateUrl, {
                 method: "POST",
@@ -71,10 +67,7 @@ app.post('/neworder', (req, res) => {
                     }
             
                     console.log("Successfully persisted state.");
-                    res.status(200).send();
-                }).catch((error) => {
-                    console.log(error);
-                    res.status(500).send({message: error});
+                    res.status(200).send("Sum successfully updated.\nCurrent sum: " + state[0].value.sum);
                 });
 
         }).catch((error) => {

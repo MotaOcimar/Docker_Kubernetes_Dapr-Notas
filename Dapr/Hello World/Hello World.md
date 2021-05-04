@@ -50,7 +50,11 @@ Salve esse código no arquivo `app.js`.
 
 Para o post, nosso app está configurado para receber um JSON no seguinte formato:
 ~~~json
-{ "data": {"orderNum":"23"} }
+{
+   "data":{
+      "orderNum":"23"
+   }
+}
 ~~~
 
 Para simplismente testarmos nosso servidor, podemos executar o comando `node app.js` (lembre de instalar as dependências antes) e, então, enviar as requisições nas rotas criadas.\
@@ -73,7 +77,7 @@ Vamos entender o que está acontecendo aqui:
 
 Podemos, então, interagir com nossa aplicação por meio da API do Dapr.\
 Para [invocar um método na nossa apliação atravez do Dapr](https://docs.dapr.io/reference/api/service_invocation_api/), usamos:
-~~~
+~~~http
 POST/GET/PUT/DELETE http://localhost:<daprPort>/v1.0/invoke/<appId>/method/<method-name>
 ~~~
 
@@ -88,7 +92,11 @@ POST http://localhost:3500/v1.0/invoke/nodeapp/method/order
 
 O JSON para o post mantém o mesmo formato:
 ~~~json
-{ "data": {"orderNum":"23"} }
+{
+   "data":{
+      "orderNum":"23"
+   }
+}
 ~~~
 
 
@@ -246,9 +254,6 @@ app.post('/neworder', (req, res) => {
     if (isNaN(orderNum)) {
         res.status(500).send("NaN orderNum");
     } else {
-
-        var sum = 0;
-
         // Obtem o estado atual
         fetch(`${stateUrl}/variables`)
         .then((response) => {
@@ -259,15 +264,14 @@ app.post('/neworder', (req, res) => {
             return response.text();
         }).then((value) => {
             var variables = JSON.parse(value);
-            sum = variables.sum + parseInt(orderNum); 
 
             // Salva o novo estado
             const state = [{
                 key: "variables",
                 value: {
-                    sum: sum
+                    sum: variables.sum + parseInt(orderNum)
                 }
-            }]
+            }];
 
             fetch(stateUrl, {
                 method: "POST",
@@ -282,10 +286,7 @@ app.post('/neworder', (req, res) => {
                     }
             
                     console.log("Successfully persisted state.");
-                    res.status(200).send();
-                }).catch((error) => {
-                    console.log(error);
-                    res.status(500).send({message: error});
+                    res.status(200).send("Sum successfully updated.\nCurrent sum: " + state[0].value.sum);
                 });
 
         }).catch((error) => {
@@ -298,7 +299,7 @@ app.post('/neworder', (req, res) => {
 
 Obs.: Como estamos usando o `isomorphic-fetch`, precisamos adicionar um `require('isomorphic-fetch');` no início do código e instalá-lo usando `npm install isomorphic-fetch --save`.\
 
-Originalmente, a soma total dos valores recebidos era salva na variável global `sum`. Agora, porém, essa mesma soma é salva no Redis e usamos apenas uma variável auxiliar `sum` dentro do método _post_ (lembre de apagar a linha que declarava a variável global `sum`).\
+Originalmente, a soma total dos valores recebidos era salva na variável global `sum`. Agora essa variável não é mais precisa e a mesma soma é salva no Redis.\
 Dessa forma, nosso servidor, originalmente _stateful_, não guarda mais nenhum estado e se tornou _stateless_!\
 
 O arquivo `app.js` agora deve se parecer com [este](app.js).
