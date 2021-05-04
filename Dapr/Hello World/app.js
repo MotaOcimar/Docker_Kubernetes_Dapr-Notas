@@ -19,7 +19,7 @@ app.get('/sum', (req, res) => {
 
         return response.text();
     }).then((value) => {
-        var variables = JSON.parse(value);
+        var variables = JSON.parse(value || "{\"sum\":0}");
         res.status(200).send("Current sum: " + variables.sum);
     }).catch((error) => {
         console.log(error);
@@ -44,7 +44,7 @@ app.post('/neworder', (req, res) => {
 
             return response.text();
         }).then((value) => {
-            var variables = JSON.parse(value);
+            var variables = JSON.parse(value || "{\"sum\":0}");
 
             // Salva o novo estado
             const state = [{
