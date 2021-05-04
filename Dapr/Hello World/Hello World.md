@@ -9,7 +9,7 @@
 ![Architecture Diagram](https://github.com/dapr/quickstarts/raw/master/hello-world/img/Architecture_Diagram.png)
 
 ## 1. Criando um servidor simples com Node.js
-De maneira genérica, um servidor _stateful_ recebe uma ordem e é capaz de executar sua tarefa de acordo com a ordem recebida e o seu estado atual.\
+De maneira genérica, um servidor _stateful_ recebe uma ordem e é capaz de executar sua tarefa de acordo com a ordem recebida e o seu estado atual.
 
 Vamos, então criar um servidor _stateful_ simples que responde com a soma de todos os valores recebidos até então.
 
@@ -57,12 +57,12 @@ Para o post, nosso app está configurado para receber um JSON no seguinte format
 }
 ~~~
 
-Para simplismente testarmos nosso servidor, podemos executar o comando `node app.js` (lembre de instalar as dependências antes) e, então, enviar as requisições nas rotas criadas.\
+Para simplismente testarmos nosso servidor, podemos executar o comando `node app.js` (lembre de instalar as dependências antes) e, então, enviar as requisições nas rotas criadas.
 ![](Architecture-Just_Node_Server.png)
 
 
 ## 2. Fazendo uso da API do Dapr
-Agora que temos [Dapr instalado](../Dapr%20-%20Implementacao.md#Instalações) localmente, podemos utilizá-lo para intermediar a comunicação com nosso servidor.\
+Agora que temos [Dapr instalado](../Dapr%20-%20Implementacao.md#Instalações) localmente, podemos utilizá-lo para intermediar a comunicação com nosso servidor.
 
 Para isso, executamos o Dapr ao lado de nossa aplicação com o seguinte comando (lembre que o Docker precisa estar em execução):
 ~~~sh
@@ -75,7 +75,8 @@ Vamos entender o que está acontecendo aqui:
 - O `--dapr-http-port` define a porta em que o Dapr escutará. A porta padrão é 3500, mas se não fornecida será escolhida uma porta aleatória;
 - E o `node app.js` é o comando para executar nosso servidor.
 
-Podemos, então, interagir com nossa aplicação por meio da API do Dapr.\
+Podemos, então, interagir com nossa aplicação por meio da API do Dapr.
+
 Para [invocar um método na nossa apliação atravez do Dapr](https://docs.dapr.io/reference/api/service_invocation_api/), usamos:
 ~~~http
 POST/GET/PUT/DELETE http://localhost:<daprPort>/v1.0/invoke/<appId>/method/<method-name>
@@ -101,13 +102,14 @@ O JSON para o post mantém o mesmo formato:
 
 
 ## 3. Salvando estados com a ajuda do Dapr
-Até então, nosso servidor funciona bem. Mas caso ocorra alguma falha, e o serviço seja reiniciado, o estado atual será perdido.\
+Até então, nosso servidor funciona bem. Mas caso ocorra alguma falha, e o serviço seja reiniciado, o estado atual será perdido.
+
 Com o Dapr isso pode ser contornado usando seu [componente de gerenciamento de estado](https://github.com/dapr/components-contrib/tree/master/state).
 
 ### Configurando o componente de estado
-Quando instalado localmente, as configurações dos componentes Dapr se encontram na pasta `$HOME/.dapr/components` para Linux/MacOS e `%USERPROFILE%\.dapr\components` para Windows. Essa pasta contem arquivos de definições yaml para cada componente.\
+Quando instalado localmente, as configurações dos componentes Dapr se encontram na pasta `$HOME/.dapr/components` para Linux/MacOS e `%USERPROFILE%\.dapr\components` para Windows. Essa pasta contem arquivos de definições yaml para cada componente.
 
-Para o componente de gerenciamento de estado, a instalação normal do Dapr (v1.1 enquanto escrevo isso) já fornece uma configuração padão, utilizando o [Redis](https://redis.io/) como para o armazenamento do estado (_state store_).\
+Para o componente de gerenciamento de estado, a instalação normal do Dapr (v1.1 enquanto escrevo isso) já fornece uma configuração padão, utilizando o [Redis](https://redis.io/) como para o armazenamento do estado (_state store_).
 
 Na pasta de componentes, então, já deve ter um arquivo `statestore.yaml` com definições semelhantes a essa:
 ```yaml
@@ -126,7 +128,7 @@ spec:
     value: "true"
 ```
 
-Legal! Para o nosso exemplo, então, podemos partir direto para o uso do componente de estado sem nos preocuparmos tanto com sua configuração!\
+Legal! Para o nosso exemplo, então, podemos partir direto para o uso do componente de estado sem nos preocuparmos tanto com sua configuração!
 
 ### Usando a API de gerenciamento de estado
 Os estados salvos com Dapr seguem o padrão chave/valor. Assim, vários estados podem ser salvos e identificados por sua chave única.
@@ -163,7 +165,7 @@ DELETE http://localhost:3500/v1.0/state/statestore/<key>
 ~~~
 
 ### Chamando o componente na aplicação
-Agora que sabemos como interagir com o componente de armazenamento de estados, vamos usá-lo para salvar o estado da nossa aplicação.\
+Agora que sabemos como interagir com o componente de armazenamento de estados, vamos usá-lo para salvar o estado da nossa aplicação.
 
 Comceçaremos adicionando a url que usaremos para nos comunicar com o componente:
 ~~~js
@@ -172,7 +174,7 @@ const stateStoreName = `statestore`; // O mesmo presente em metadata.name do arq
 const stateUrl = `http://localhost:${daprPort}/v1.0/state/${stateStoreName}`;
 ~~~
 
-Precisamos, então, entender o que caracteriza o estado de nossa aplicação. Para o nosso simples servidor é fácil: o valor armazenado nas variáveis, ou melhor, na variável `sum`.\
+Precisamos, então, entender o que caracteriza o estado de nossa aplicação. Para o nosso simples servidor é fácil: o valor armazenado nas variáveis, ou melhor, na variável `sum`.
 
 Sempre que quisermos salvar um estado podemos, então, criar o seguinte objeto que, seguindo o padrão chave/valor usado no Dapr, armazena o estado atual da nossa aplicação:
 ~~~js
@@ -181,7 +183,7 @@ const state = [{
     value: {
         sum: sum
     }
-}]
+}];
 ~~~
 
 ... E enviarmos ele por meio da API do Dapr:
@@ -244,7 +246,7 @@ app.get('/sum', (req, res) => {
 });
 ~~~
 
-E o nosso post:
+E o nosso _post_:
 ~~~js
 app.post('/neworder', (req, res) => {
     const data = req.body.data;
@@ -297,9 +299,9 @@ app.post('/neworder', (req, res) => {
 });
 ~~~
 
-Obs.: Como estamos usando o `isomorphic-fetch`, precisamos adicionar um `require('isomorphic-fetch');` no início do código e instalá-lo usando `npm install isomorphic-fetch --save`.\
+Obs.: Como estamos usando o `isomorphic-fetch`, precisamos adicionar um `require('isomorphic-fetch');` no início do código e instalá-lo usando `npm install isomorphic-fetch --save`.
 
 Originalmente, a soma total dos valores recebidos era salva na variável global `sum`. Agora essa variável não é mais precisa e a mesma soma é salva no Redis.\
-Dessa forma, nosso servidor, originalmente _stateful_, não guarda mais nenhum estado e se tornou _stateless_!\
+Dessa forma, nosso servidor, originalmente _stateful_, não guarda mais nenhum estado e se tornou _stateless_!
 
 O arquivo `app.js` agora deve se parecer com [este](app.js).
