@@ -335,7 +335,7 @@ while True:
             print("HTTP %d => %s" % (response.status_code,
                                      response.content.decode("utf-8")), flush=True)
         else:
-            print(response.text)
+            print(response.text, flush=True)
             pass
 
     except Exception as e:
@@ -364,4 +364,10 @@ dapr run --app-id pythonapp python app.py
 E agora temos que toda comunicação entre os microserviços da nossa aplicação é intermediada por sidecars Dapr:
 ![node-python](node-python.png)
 
+## 5. Limpando
+Para encerrar o Dapr, basta encerrar o `dapr run` executado para cada serviço. Opcionalmente, `dapr stop --app-id <appId>` também encerrará o serviço.
 
+Para limpar os estados salvos, podemos usar diretamente a API comentada anteriormente. Para nosso caso fica:
+~~~http
+DELETE http://localhost:3500/v1.0/state/statestore/variables
+~~~
