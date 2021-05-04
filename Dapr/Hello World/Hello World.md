@@ -365,7 +365,7 @@ E agora temos que toda comunicação entre os microserviços da nossa aplicaçã
 ![node-python](node-python.png)
 
 ## 5. Limpando
-Para encerrar o Dapr, basta encerrar o `dapr run` executado para cada serviço. Opcionalmente, `dapr stop --app-id <appId>` também encerrará o serviço.
+Para encerrar o Dapr e os demais serviços, basta encerrar o `dapr run` executado para cada serviço. Opcionalmente, `dapr stop --app-id <appId>` também os encerrará.
 
 Para limpar os estados salvos, podemos usar diretamente a API comentada anteriormente. Para nosso caso fica:
 ~~~http
