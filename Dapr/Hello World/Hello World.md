@@ -130,7 +130,7 @@ Para [interagir com o serviço de armazenamento de estado por meio da API do Dap
 
 O JSON passado no _post_ normalmente terá os campos `key` e `value`:
 ~~~json
-{
+[
     {
     "key": "key1",
     "value": "42"
@@ -142,7 +142,7 @@ O JSON passado no _post_ normalmente terá os campos `key` e `value`:
         "age": "23"
         }
     }
-}
+]
 ~~~
 
 Para o nosso caso, `<daprPort>` é 3500. O `<storename>` deve ser o mesmo presente no campo `metadata.name` do arquivo `statestore.yaml`, que no nosso caso é simplesmente `statestore`. `<key>` dependerá do que iremos salvar.
