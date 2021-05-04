@@ -55,7 +55,7 @@ Para o post, nosso app está configurado para receber um JSON no seguinte format
 ~~~
 
 Para simplismente testarmos nosso servidor, podemos executar o comando `node app.js` (lembre de instalar as dependências antes) e, então, enviar as requisições nas rotas criadas.
-![](Architecture-Just_Node_Server.png)
+![just-server](just-server.png)
 
 
 ## 2. Fazendo uso da API do Dapr
@@ -97,7 +97,7 @@ O JSON para o post mantém o mesmo formato:
 }
 ~~~
 
-![App-with-Dapr](App-with-Dapr.png)
+![server-dapr](server-dapr.png)
 
 ## 3. Salvando estados com a ajuda do Dapr
 Até então, nosso servidor funciona bem. Mas caso ocorra alguma falha, e o serviço seja reiniciado, o estado atual será perdido.
@@ -304,7 +304,7 @@ Dessa forma, nosso servidor, originalmente _stateful_, não guarda mais nenhum e
 
 O arquivo `app.js` agora deve se parecer com [este](app.js).
 
-![Architecture Diagram](https://github.com/dapr/quickstarts/raw/master/hello-world/img/Architecture_Diagram.png)
+![state-store](state-store.png)
 
 ## 4. Criando um serviço cliente (com sidecar Dapr!)
 
@@ -363,6 +363,6 @@ dapr run --app-id pythonapp python app.py
 ~~~
 
 E agora temos que toda comunicação entre os microserviços da nossa aplicação é intermediada por sidecars Dapr:
-![Architecture Diagram Final](https://github.com/dapr/quickstarts/raw/master/hello-world/img/Architecture_Diagram_B.png)
+![node-python](node-python.png)
 
 
