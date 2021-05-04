@@ -5,9 +5,6 @@
 - Aprender usar a API do Dapr para intermediar a comunicação com microserviçoes;
 - Aprender a usar gerenciamento de estados (_state management_) junto com o Dapr;
 
-
-![Architecture Diagram](https://github.com/dapr/quickstarts/raw/master/hello-world/img/Architecture_Diagram.png)
-
 ## 1. Criando um servidor simples com Node.js
 De maneira genérica, um servidor _stateful_ recebe uma ordem e é capaz de executar sua tarefa de acordo com a ordem recebida e o seu estado atual.
 
@@ -46,7 +43,7 @@ app.post('/neworder', (req, res) => {
 app.listen(port, () => console.log(`Node App listening on port ${port}!`));
 ~~~
 
-Salve esse código no arquivo `app.js`.
+Salve esse código em um arquivo chamado `app.js`.
 
 Para o post, nosso app está configurado para receber um JSON no seguinte formato:
 ~~~json
@@ -100,6 +97,7 @@ O JSON para o post mantém o mesmo formato:
 }
 ~~~
 
+![App-with-Dapr](App-with-Dapr.png)
 
 ## 3. Salvando estados com a ajuda do Dapr
 Até então, nosso servidor funciona bem. Mas caso ocorra alguma falha, e o serviço seja reiniciado, o estado atual será perdido.
@@ -210,7 +208,7 @@ fetch(stateUrl, {
 
 Para recuperarmos esse estado, fazemos novamente o uso da API:
 ~~~js
-fetch(`${stateUrl}/variables`) // 'variable' pois é a key do estado que estamos tentando recuperar
+fetch(`${stateUrl}/variables`) // 'variables' pois é a key do estado que estamos tentando recuperar
     .then((response) => {
         if (!response.ok) {
             throw "Could not get state.";
@@ -305,3 +303,66 @@ Originalmente, a soma total dos valores recebidos era salva na variável global 
 Dessa forma, nosso servidor, originalmente _stateful_, não guarda mais nenhum estado e se tornou _stateless_!
 
 O arquivo `app.js` agora deve se parecer com [este](app.js).
+
+![Architecture Diagram](https://github.com/dapr/quickstarts/raw/master/hello-world/img/Architecture_Diagram.png)
+
+## 4. Criando um serviço cliente (com sidecar Dapr!)
+
+O seguinte script em python automatiza o uso dos métodos que implementamos, enviando um novo número a cada 1 segundo e recebendo a soma total gerada até então:
+~~~python
+import os
+import requests
+import time
+
+dapr_port = os.getenv("DAPR_HTTP_PORT", 3500)
+neworder_url = "http://localhost:{}/v1.0/invoke/nodeapp/method/neworder".format(dapr_port)
+sum_url = "http://localhost:{}/v1.0/invoke/nodeapp/method/sum".format(dapr_port)
+
+n = 0
+while True:
+    n += 1
+    message = {"data": {"orderNum": n}}
+
+    try:
+        # Tenta enviar novas ordens
+        response = requests.post(neworder_url, json=message, timeout=5)
+        if not response.ok:
+            print("HTTP %d => %s" % (response.status_code,
+                                     response.content.decode("utf-8")), flush=True)
+        
+        # Obtem a soma total até então
+        response = requests.get(sum_url, timeout=5)
+        if not response.ok:
+            print("HTTP %d => %s" % (response.status_code,
+                                     response.content.decode("utf-8")), flush=True)
+        else:
+            print(response.text)
+            pass
+
+    except Exception as e:
+        print(e, flush=True)
+
+    time.sleep(1)
+~~~
+
+Salve esse código em um arquivo com nome `app.py`.
+
+Se executarmos o códiogo acima com `python3 app.py` teremos um output parecido com
+~~~
+Current sum: 1
+Current sum: 3
+Current sum: 6
+...
+~~~
+
+Mesmo sendo um cliente simples, nada nos impede de padronizarmos a aplicação como um todo (app.js + app.py) e também criamos um sidecar Dapr para o cliente em python.
+
+Basta executar
+~~~sh
+dapr run --app-id pythonapp python app.py
+~~~
+
+E agora temos que toda comunicação entre os microserviços da nossa aplicação é intermediada por sidecars Dapr:
+![Architecture Diagram Final](https://github.com/dapr/quickstarts/raw/master/hello-world/img/Architecture_Diagram_B.png)
+
+
