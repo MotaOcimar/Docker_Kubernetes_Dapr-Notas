@@ -131,17 +131,17 @@ Para [interagir com o serviço de armazenamento de estado por meio da API do Dap
 O JSON passado no _post_ normalmente terá os campos `key` e `value`:
 ~~~json
 {
-  {
+    {
     "key": "key1",
     "value": "42"
-  },
-  {
+    },
+    {
     "key": "key2",
     "value": {
-        "name": "John"
+        "name": "John",
         "age": "23"
+        }
     }
-  }
 }
 ~~~
 
