@@ -4,11 +4,10 @@
 - Recriar o exemplo [Hello World](../Hello%20World/Hello%20World.md) usando Kubernetes;
 
 
-De modo geral, a [explicação original](https://github.com/dapr/quickstarts/tree/master/hello-kubernetes) está bem inteligível.
+## 1. Criando as imagens Docker
+Para usar o kubernetes vamos precisar usar imagens Docker. Podemos usar imagens prontas ou construir as nossas próprias.
 
-Apenas algumas aobserções:
 
-## Criando as imagens Docker
 ### Do nodeapp
 - Coloca os arquivos `app.js` e `package.json` em uma pasta própria. No meu caso será em `./node/`.
 - Cria um arquivo `dockerfile` com
@@ -38,7 +37,7 @@ CMD [ "python", "./app.py" ]
 - Cria a imagem: `docker build -t <dockerhub-username>/pythonapp .\python\`
 - E manda para seu dockerub: `docker push <dockerhub-username>/pythonapp`
 
-## Criando as config-files do Kubernetes
+## 2. Criando as config-files do Kubernetes
 Seguem a mesma lógica já comentada [aqui](../../Docker%20&%20Kubernetes/Kubernetes/Kubernetes.md#2%20Criar%20config-files%20para%20cada%20objeto).
 Para organizar, vamos salvar todas essas config-files em `./deploy/`.
 
@@ -49,7 +48,7 @@ apiVersion: dapr.io/v1alpha1
 kind: Component
 ~~~
 
-A estrutura completa para esse arquivo é [essa](https://docs.dapr.io/reference/api/state_api/#component-file). 
+A estrutura para esse arquivo é [essa](https://docs.dapr.io/reference/api/state_api/#component-file). 
 
 No caso de instalarmos o Redis no nosso cluster usando o Helm, o arquivo segue a exata estrutura abaixo:
 ~~~yaml
@@ -156,15 +155,33 @@ spec:
 ~~~
 
 
-
-
-
-## Alguns passos para não esquecer de documentar:
-- iniciar um cluster (pode ser usando um serviço na nuvem ou usando o minikube localmente, com `minikube start --driver=hyperv` para winkows ou simplesmente `minikube start` para os demais SOs)
-- Executar `dapr init --kubernetes --wait`
-    - O deployment do Kubernetes é assíncrono por padrão. O `--wait` grante que o _dapr control plane_ teve seu deploy completo e está executnado antes de continuar.
+## 3. Iniciando o Dapr no seu Cluster
+Com o cluster em execução (seja Minikube, AKS ou GKE) execute `dapr init --kubernetes --wait`
+    - O deployment do Kubernetes é assíncrono por padrão. O `--wait` grante que o _dapr control plane_ teve seu deploy completo e está executnado antes de continuarmos.
 
 ### Configurar e criar o componente de estados
 - [Criar um armazenamento Redis](https://docs.dapr.io/getting-started/configure-state-pubsub/#create-a-redis-store) - Dependendo de que plataforma (kubernetes, AWS, GCP ou Azure) você está usando
-- Montar um `redis.yaml` e dar um apply `kubectl apply -f ./deploy/redis.yaml`
+    > Com [Helm](https://helm.sh/), basta `helm install redis bitnami/redis`
 
+### Subir os objetos configurados
+- Com as [config-files criadas](Hello%20Kubernetes.md#2%20Criando%20as%20config-files%20do%20Kubernetes), execute os seguintes comandos:
+~~~sh
+# aplica as configurações do componente de estados
+kubectl apply -f ./deploy/redis-component.yaml
+# aplica as configurações do nodeapp e aguarda ele estar pronto
+kubectl apply -f ./deploy/nodeapp-deployment.yaml
+kubectl rollout status deploy/nodeapp
+# aplica as configurações do pythonapp e aguarda ele estar pronto
+kubectl apply -f ./deploy/pythonapp-deployment.yaml
+kubectl rollout status deploy/pythonapp
+~~~
+
+### Observar o funcionamento
+Veja o log do deploy/pythonapp com `kubectl logs deploy/pythonapp -c python`. Deverá resultar em algo como:
+~~~
+Current sum: 1
+Current sum: 3
+Current sum: 6
+Current sum: 10
+...
+~~~

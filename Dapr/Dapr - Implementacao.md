@@ -1,7 +1,6 @@
 # Dapr - Implementação
 
-## Instalações
-### Localmente
+## Instalação
 1. De acordo com seu SO, execute o código a seguir
     - Linux:
     `wget -q https://raw.githubusercontent.com/dapr/cli/master/install/install.sh -O - | /bin/bash`
@@ -12,12 +11,10 @@
 
 2. Depois (comum a todos SOs):
 - Garanta que o Docker está em execução
-- Esecute `dapr init`
+- Execute `dapr init`
 
 3. Prontinho :)
 
-### Kubernetes
-...
-
 ## Exemplos de implementação
 - [Hello World](Hello%20World/Hello%20World.md)
+- [Hello Kubernetes](Hello%20Kubernetes/Hello%20Kubernetes.md)
