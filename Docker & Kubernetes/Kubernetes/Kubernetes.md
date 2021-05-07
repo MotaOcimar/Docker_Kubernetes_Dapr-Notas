@@ -39,8 +39,10 @@ Apesar de dá para fazer deploy de Pods diretamente, geralmente usa-se o objeto 
 ![Pasted image 20210316123118.png](Media/Pasted%20image%2020210316123118.png)
     
 #### Service
-- Comumente usado para configurar networking no cluster
-- Possui sub-tipos:
+- Existe para permitir a comunicação por rede entre os pods
+    (Um pod quando é reiniciado tem seu IP modificado. Como isso é algo que acontece com frequência, usa-se o service para receber as chamadas em um IP estável e redirecionar para os pod)
+
+Possui sub-tipos:
 
 ##### NodePort
 - **APENAS PARA DEV** não usar para produção
@@ -48,12 +50,14 @@ Apesar de dá para fazer deploy de Pods diretamente, geralmente usa-se o objeto 
     ![Pasted image 20210319102209.png](Media/Pasted%20image%2020210319102209.png)
 
 ##### ClusterIP
-- Expõe um conjunto de pods a outro objeto **dentro** do cluster
+- Tipo mais básico de Service.
+- Expõe um conjunto de replicas de pods a outro objeto **dentro** do cluster
     - Logo ainda **não** é possível acessá-lo de fora do cluster
     ![Pasted image 20210319102624.png](Media/Pasted%20image%2020210319102624.png)
 ##### LoadBalancer
 - Considerado por alguns como **legacy**
 - Expõe um objeto a um Load Balancer externo
+- Um ClusterIp é criado automaticamente
 - Esse objeto tem que ser capaz de fazer o routing interno
     ![Pasted image 20210319110338.png](Media/Pasted%20image%2020210319110338.png)
     
@@ -181,14 +185,16 @@ spec:
         <nome da label que você quer>: <identificador que você quiser>
     spec:
       containers:
-        - name: <nome que você deseja para o container>
-          image: <docker-hub username>/<repo name on docker-hub>
-          ports:
-            - containerPort: <porta a ser exposta>
+      - name: <nome que você deseja para o container>
+        image: <docker-hub username>/<repo name on docker-hub>
+        ports:
+          - containerPort: <porta a ser exposta>
+        imagePullPolicy: <Quando deve-se fazer pull da imagem> # Opcional
 ~~~
 
 - Obs.: Por que repetir uma label de ```selector``` em ```tamplate: metadata: labels```?
     - Porque pode ser que você queira que seus Pods tenham várias labels. Assim você precisa indicar qual delas será usada para identificar o seu deployment
+- Obs.2: Mais sobre `imagePullPolicy` [na documentação](https://kubernetes.io/docs/concepts/configuration/overview/#container-images).
 
 ##### Deployment usando Persistent Volume Claim
 ~~~yaml
@@ -283,7 +289,7 @@ spec:
 Usando ```apiVersion: networking.k8s.io/v1beta1```:
 ~~~yaml
 apiVersion: networking.k8s.io/v1beta1 # Define o conjuto de tipos objetos que posso
-                                                  # criar com esse arquivo
+                                      # criar com esse arquivo
 kind: Ingress
 metadata:
   name: <nome que você deseja para esse objeto>

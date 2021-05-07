@@ -30,6 +30,9 @@
 1. Colocar 2 tags: a ```latest``` e ```$GIT_SHA```, em que ```$GIT_SHA``` é o valor de uma variável de ambiente com o hash que identifica o commit atual (```GIT_SHA=$(git rev-parse HEAD)```).
 2. Em seguida, usa um comando imperativo para atualizar a imagem (não funcionaria apenas com a tag ```latest``` pois a escrita é a mesma e ele não percebe que algo deve ser atualizado): ```kubectl set image <tipo do objeto>/<nome do objeto> <nome do pod>=<docker-id>/<repositorio>:$GIT_SHA```
 
+### `minikube start` falhando em algo
+Muitas vezes basta excluir clusters ateriores com `minikube delete` para que o comando `minikube start` volte a funcionar.
+
 ## Travis-CI
 ### Identificando ```newline``` como ```\r```
 Caso isso ocorra, adicionar um ```#``` no final de cada linha ajudará o Travis executar corretamente os comandos nelas escritos.

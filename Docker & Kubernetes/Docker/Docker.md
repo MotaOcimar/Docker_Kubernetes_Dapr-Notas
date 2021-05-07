@@ -39,7 +39,7 @@ Vai ser executado em algo parecido com NameSpace e CGroups
 ## Criando uma imagem docker
 ### Passo 1: Criar uma Dockerfile
 #### O que é
-- Arquivo plano nomead ```Dockerfile``` que dá instruções de como construir uma imagem Docker
+- Arquivo plano nomeado ```Dockerfile``` que dá instruções de como construir uma imagem Docker
 
 #### Formato
 ```Dockerfile
@@ -83,6 +83,7 @@ CMD     ["npm", "start"]
 FROM alpine                     # Vai usar cache
 RUN  apk add --update python3   # Vai usar cache
 RUN  apk add --update gcc       # Vai ter que baixar
+
 CMD  ["python3"]
 ```
 

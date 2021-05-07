@@ -75,14 +75,14 @@ gcloud container clusters get-credentials <nome do seu cluster>
 Em um shell dentro do seu projeto no GCLoud, segue os seguintes passos:
 1. Instala o Helm
 ~~~bash
-curl \-fsSL \-o get\_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
-chmod 700 get\_helm.sh
-./get\_helm.sh
+curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+chmod 700 get_helm.sh
+./get_helm.sh
 ~~~
 2. Instala o Ingress-Nginx:
 ~~~bash
-helm repo add ingress\-nginx https://kubernetes.github.io/ingress-nginx
-helm install my\-release ingress\-nginx/ingress\-nginx
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm install my-release ingress-nginx/ingress-nginx
 ~~~
 
 ## Travis:
