@@ -61,11 +61,12 @@ Possui sub-tipos:
 - Esse objeto tem que ser capaz de fazer o routing interno
     ![Pasted image 20210319110338.png](Media/Pasted%20image%2020210319110338.png)
     
-##### Ingress
+#### Ingress
 - Conjunto de instruções de routing a ser executado por um Ingress-Controller
 - Obs.:
     - Isso não tira a nececidade de um Load Balancer externo, mas adiciona uma camada de extra de routing e controle
     - Facilita a configuração, pois você apenas passa o estado desejado atravez do Ingress que o Controller conficura o Load Balancer para você
+    - Não é um service
     
     ![Pasted image 20210319110140.png](Media/Pasted%20image%2020210319110140.png)
 
@@ -153,10 +154,10 @@ metadata:
     <nome da label que você quer>: <identificador que você quiser>
 spec:
   containers:
-    - name: <nome que você deseja para o container>
-      image: <docker-hub username>/<repo name on docker-hub>
-      ports:
-        - containerPort: <porta a ser exposta>
+  - name: <nome que você deseja para o container>
+    image: <docker-hub username>/<repo name on docker-hub>
+    ports:
+    - containerPort: <porta a ser exposta>
 ~~~
 
 #### Deployment
@@ -188,7 +189,7 @@ spec:
       - name: <nome que você deseja para o container>
         image: <docker-hub username>/<repo name on docker-hub>
         ports:
-          - containerPort: <porta a ser exposta>
+        - containerPort: <porta a ser exposta>
         imagePullPolicy: <Quando deve-se fazer pull da imagem> # Opcional
 ~~~
 
@@ -211,13 +212,13 @@ spec:
           persistentVolumeClaim:
             claimName: <mesmo nome do PersistentVolumeClaim criado em outra config file>
       containers:
-        - name: <nome que você deseja para o container>
-          ...
-          volumeMounts:
-            - name: <mesmo nome dado para o volume nas specs acima>
-              # O acesso ao mountPath ocorrerá, na verdade, ao volume
-              mountPath: <caminho no container onde o volume será montado>
-              # subPath: postgres   # geralmente apenas o postgres precisa disso
+      - name: <nome que você deseja para o container>
+        ...
+        volumeMounts:
+          - name: <mesmo nome dado para o volume nas specs acima>
+            # O acesso ao mountPath ocorrerá, na verdade, ao volume
+            mountPath: <caminho no container onde o volume será montado>
+            # subPath: postgres   # geralmente apenas o postgres precisa disso
 ~~~
 
 ##### Deployment usando Environment Variable

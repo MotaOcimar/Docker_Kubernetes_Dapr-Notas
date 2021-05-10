@@ -1,6 +1,6 @@
 # Hello Kubernetes
 
-**Objetivos**:
+**Objetivo**:
 - Recriar o exemplo [Hello World](../Hello%20World/Hello%20World.md) usando Kubernetes;
 
 
@@ -91,7 +91,7 @@ spec:
       - name: node
         image: ocimar/nodeapp
         ports:
-          - containerPort: 3000
+        - containerPort: 3000
 ~~~
 
 Para que o _Dapr control plane_ injecte um sidecar automaticamente e se comunique devidamente com os outros serviços, devemos adicionar as seguintes anotações em `specs: template: metadata: anotations`:
@@ -126,7 +126,7 @@ spec:
       - name: node
         image: ocimar/nodeapp
         ports:
-          - containerPort: 3000
+        - containerPort: 3000
 ~~~
 
 ### Para o pythonapp
@@ -155,6 +155,11 @@ spec:
 ~~~
 
 
+### Para os _Services_ Kubernetes?
+Normalmente, para que _pods_ (ou _deployments_) independentes comuniquem-se entre si, é necessário usar um objeto do tipo _service_ _clusteIP_ que identificará aquele pod ou conjunto de pods no cluster e possibilitará a comunicação entre eles.
+
+Mas, como estamos usando o Dapr, toda a comunicação entre os serviços dentro do cluster é feita por meio da API Dapr. Sendo assim, não é mais necessário usar um _clusterIP_ para nosso exemplo aqui.
+
 ## 3. Iniciando o Dapr no seu Cluster
 Com o cluster em execução (seja Minikube, AKS ou GKE) execute `dapr init --kubernetes --wait`
     - O deployment do Kubernetes é assíncrono por padrão. O `--wait` grante que o _dapr control plane_ teve seu deploy completo e está executnado antes de continuarmos.
@@ -163,7 +168,7 @@ Com o cluster em execução (seja Minikube, AKS ou GKE) execute `dapr init --kub
 - [Criar um armazenamento Redis](https://docs.dapr.io/getting-started/configure-state-pubsub/#create-a-redis-store) - Dependendo de que plataforma (kubernetes, AWS, GCP ou Azure) você está usando
     > Com [Helm](https://helm.sh/), basta `helm install redis bitnami/redis`
 
-### Aplicar as configurações criadas para os onjetos
+### Aplicar as configurações criadas para os objetos
 - Com as [config-files criadas](Hello%20Kubernetes.md#2%20Criando%20as%20config-files%20do%20Kubernetes), execute os seguintes comandos:
 ~~~sh
 # aplica as configurações do componente de estados

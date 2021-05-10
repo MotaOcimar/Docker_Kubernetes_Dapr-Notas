@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: multiply-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: multiply
+  template: 
+    metadata:
+      labels:
+        app: multiply
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "multiplyapp"
+        dapr.io/app-port: "5000"
+    spec:
+      containers:
+      - name: multiply
+        image: dapriosamples/distributed-calculator-python:latest
+        ports:
+        - containerPort: 5000
