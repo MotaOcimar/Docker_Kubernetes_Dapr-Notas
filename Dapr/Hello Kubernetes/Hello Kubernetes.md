@@ -163,7 +163,7 @@ Com o cluster em execução (seja Minikube, AKS ou GKE) execute `dapr init --kub
 - [Criar um armazenamento Redis](https://docs.dapr.io/getting-started/configure-state-pubsub/#create-a-redis-store) - Dependendo de que plataforma (kubernetes, AWS, GCP ou Azure) você está usando
     > Com [Helm](https://helm.sh/), basta `helm install redis bitnami/redis`
 
-### Subir os objetos configurados
+### Aplicar as configurações criadas para os onjetos
 - Com as [config-files criadas](Hello%20Kubernetes.md#2%20Criando%20as%20config-files%20do%20Kubernetes), execute os seguintes comandos:
 ~~~sh
 # aplica as configurações do componente de estados
