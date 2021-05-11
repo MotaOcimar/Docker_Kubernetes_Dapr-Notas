@@ -27,14 +27,16 @@ São as seguintes:
 
 Mas você pode criar suas próprias imagens Docker com base no [exemplo original](https://github.com/dapr/quickstarts/tree/master/distributed-calculator).
 
+Recomendo, porém, dar ao menos uma olhada na [implementação do front-end](https://github.com/dapr/quickstarts/blob/master/distributed-calculator/react-calculator/server.js), pois é lá onde é integrado os serviços utilizando a API Dapr. Ele segue a mesma ideia de [service invocation](https://docs.dapr.io/reference/api/service_invocation_api/) e [state management](https://docs.dapr.io/reference/api/state_api/) usado no [Hello World](../1.%20Hello%20World/Hello%20World.md) que, para essa aplicação, também estão bem explicado no [repositório original](https://github.com/dapr/quickstarts/tree/master/distributed-calculator#the-role-of-dapr).
+
+
 ## 2. Criando as config-files do Kubernetes
 
 ### Para os deployments
 Serão 5 deployments: cada uma das 4 operação mais o front-end.
 
-Cada uma delas segue o mesmo padrão explicado no [Hello Kubernetes](../Hello%20Kubernetes/Hello%20Kubernetes.md#Para%20o%20nodeapp)
+Cada uma delas segue o mesmo padrão explicado no [Hello Kubernetes](../2.%20Hello%20Kubernetes/Hello%20Kubernetes.md#Para%20o%20nodeapp)
 
-Lembre de modificar as imagens, labels, nomes e portas usadas.
 As portas configuradas para cada serviço são as seguintes:
 
 -   **Adição**: 6000
@@ -71,7 +73,7 @@ spec:
 ~~~
 
 ### Para o _State Store_ Redis
-Esti fica identico ao do [Hello Kubernetes](../Hello%20Kubernetes/Hello%20Kubernetes.md#Para%20o%20_state%20store_%20redis).
+Este fica identico ao do [Hello Kubernetes](../2.%20Hello%20Kubernetes/Hello%20Kubernetes.md#Para%20o%20_state%20store_%20redis).
 
 ~~~yaml
 apiVersion: dapr.io/v1alpha1
