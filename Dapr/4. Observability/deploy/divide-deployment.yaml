@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: divide-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: divide
+  template: 
+    metadata:
+      labels:
+        app: divide
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "divideapp"
+        dapr.io/app-port: "4000"
+        dapr.io/config: "tracing"
+    spec:
+      containers:
+      - name: divide
+        image: dapriosamples/distributed-calculator-node:latest
+        ports:
+        - containerPort: 4000

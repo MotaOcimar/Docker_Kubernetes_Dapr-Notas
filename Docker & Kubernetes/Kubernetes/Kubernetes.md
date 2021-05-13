@@ -51,8 +51,8 @@ Possui sub-tipos:
 
 ##### ClusterIP
 - Tipo mais básico de Service.
-- Expõe um conjunto de replicas de pods a outro objeto **dentro** do cluster
-    - Logo ainda **não** é possível acessá-lo de fora do cluster
+- Expõe um conjunto de replicas de pods **dentro** do cluster
+    - Mas ainda **não** é possível acessá-lo de fora do cluster
     ![Pasted image 20210319102624.png](Media/Pasted%20image%2020210319102624.png)
 ##### LoadBalancer
 - Considerado por alguns como **legacy**
@@ -276,17 +276,38 @@ kind: Service
 metadata:
   name: <nome que você deseja para esse objeto>
 spec:
-  type: NodePort
   # Selecionar o Pod desejado por meio de sua label
   selector:
     <Label do Pod desejado>: <identificador associado a essa label e Pod>
   ports:
     # Mapeamento de portas
-    - port: <porta externa a ser mapeada> # Note que agora é no singular
-      targetPort: <porta no container>
+  - protocol: TCP
+    port: <porta externa a ser mapeada> # Note que agora é no singular
+    targetPort: <porta no container>
 ~~~
 
-##### Ingress
+Normalmente, o conjunto de replicas estará disponível pelo endereço `http://<service-name>.<namespace-name>.svc.cluster.local:<porta>/`. O namespace padrão é `default`, então mais comumente ainda o endereço será simplesmente `http://<service-name>.default.svc.cluster.local:<porta>/`
+
+##### LoadBalancer
+~~~yaml
+apiVersion: v1  # Define o conjuto de tipos objetos que posso
+                # criar com esse arquivo
+kind: Service
+metadata:
+  name: <nome que você deseja para esse objeto>
+spec:
+  type: LoadBalancer
+  # Selecionar o Pod desejado por meio de sua label
+  selector:
+    <Label do Pod desejado>: <identificador associado a essa label e Pod>
+  ports:
+    # Mapeamento de portas
+  - protocol: TCP
+    port: <porta externa a ser mapeada> # Note que agora é no singular
+    targetPort: <porta no container>
+~~~
+
+#### Ingress
 Usando ```apiVersion: networking.k8s.io/v1beta1```:
 ~~~yaml
 apiVersion: networking.k8s.io/v1beta1 # Define o conjuto de tipos objetos que posso

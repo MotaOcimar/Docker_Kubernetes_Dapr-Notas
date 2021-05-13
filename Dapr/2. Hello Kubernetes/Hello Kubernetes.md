@@ -1,7 +1,7 @@
 # Hello Kubernetes
 
 **Objetivo**:
-- Recriar o exemplo [Hello World](../Hello%20World/Hello%20World.md) usando Kubernetes;
+- Recriar o exemplo [Hello World](../1.%20Hello%20World/Hello%20World.md) usando Kubernetes;
 
 
 ## 1. Criando as imagens Docker
@@ -94,13 +94,13 @@ spec:
         - containerPort: 3000
 ~~~
 
-Para que o _Dapr control plane_ injecte um sidecar automaticamente e se comunique devidamente com os outros serviços, devemos adicionar as seguintes anotações em `specs: template: metadata: anotations`:
+Para que o _Dapr control plane_ injecte um sidecar automaticamente e se comunique devidamente com os outros serviços, devemos adicionar as seguintes anotações em `specs.template.metadata.anotations`:
 ~~~yaml
 dapr.io/enabled: "true"     # Diz para o Dapr control plan injetar um sidecar nesse deployment
 dapr.io/app-id: "nodeapp"   # Identifica de forma única essa aplicação para o Dapr
 dapr.io/app-port: "3000"    # Porta usada pelo app e que o Dapr tentará acessar
 ~~~
-Observe que elas são algumas das configurações que passamos imperativamente no [Hello World](../Hello%20World/Hello%20World.md), quando executando o Dapr localmente.
+Observe que elas são algumas das configurações que passamos imperativamente no [Hello World](../1.%20Hello%20World/Hello%20World.md), quando executando o Dapr localmente.
 
 O arquivo deve ficar algo como:
 ~~~yaml

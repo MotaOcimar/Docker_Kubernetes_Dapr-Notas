@@ -135,10 +135,10 @@ kubectl rollout status deploy/frontend-deployment
 ~~~
 
 
-### Observar o funcionamento
+### Observando o funcionamento
 Isso vai depender do provedor que você está usando. Caso esteja rodando localmente ou com AKS, _port forwarding_ é uma forma consistente de conseguir isso:
 ~~~sh
-kubectl port-forward service/calculator-service 80:80
+kubectl port-forward service/frontend-service 80:80
 ~~~
 
 Isso fará a aplicação estar disponível em http://localhost:80/ (ou simplismente http://localhost/).
