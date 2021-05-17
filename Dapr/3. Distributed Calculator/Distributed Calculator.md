@@ -6,6 +6,7 @@
     -   **Multiplicação**: Aplicação Python [flask](https://flask.palletsprojects.com/en/1.0.x/)
     -   **Divisão**: Aplicação Node [Express](https://expressjs.com/)
     -   **Subtração**: Aplicação [.NET Core](https://docs.microsoft.com/en-us/dotnet/core/)
+- Integrar todos esses serviços usando a API Dapr
 
 Além desses haverá um front-end em React.
 
@@ -116,7 +117,7 @@ spec:
   type: LoadBalancer
 ~~~
 
-Isso expõe para o load balancer do provedor utilizado (AWS, GCP, Azure ou o próprio no Kubernetes, se suportado).
+Isso expõe para o load balancer do provedor utilizado ( o próprio no Kubernetes, AWS, GCP, Azure, etc se suportado).
 
 
 ## 3. Executando a aplicação

@@ -296,7 +296,7 @@ app.post('/neworder', (req, res) => {
 });
 ~~~
 
-Obs.: Como estamos usando o `isomorphic-fetch`, precisamos adicionar um `require('isomorphic-fetch');` no início do código e instalá-lo usando `npm install isomorphic-fetch --save`.
+> Obs.: Como estamos usando o `isomorphic-fetch`, precisamos adicionar um `require('isomorphic-fetch');` no início do código e instalá-lo usando `npm install isomorphic-fetch --save`.
 
 Originalmente, a soma total dos valores recebidos era salva na variável global `sum`. Agora essa variável não é mais precisa e a mesma soma é salva no Redis.\
 Dessa forma, nosso servidor, originalmente _stateful_, não guarda mais nenhum estado e se tornou _stateless_!

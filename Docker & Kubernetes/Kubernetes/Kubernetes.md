@@ -400,7 +400,9 @@ spec:
 
 #### Secret
 - Neste caso **NÃO** se usa config-file, mas sim um comando imperativo:
-    - ```kubectl create secret generic <nome do objeto> --from-literal <KEY>=<value>```
+    - `kubectl create secret generic <nome do objeto> --from-literal <KEY>=<value>`
+    - Ou `kubectl create secret generic <nome do objeto> --from-file .\<file name>`
+        - Neste caso `KEY=<file name>` e `value=<file content>`
 
 
 ### 3. Aplica as configurações de cada objeto
