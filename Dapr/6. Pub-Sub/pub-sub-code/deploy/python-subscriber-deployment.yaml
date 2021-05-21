@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  python-subscriber-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: python-subscriber
+  template: 
+    metadata:
+      labels:
+        app: python-subscriber
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "python-subscriber"
+        dapr.io/app-port: "5000"
+    spec:
+      containers:
+      - name: python-subscriber
+        image: ocimar/python-subscriber
+        ports:
+        - containerPort: 5000

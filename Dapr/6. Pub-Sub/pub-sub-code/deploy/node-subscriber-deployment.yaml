@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  node-subscriber-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: node-subscriber
+  template: 
+    metadata:
+      labels:
+        app: node-subscriber
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "node-subscriber"
+        dapr.io/app-port: "3000"
+    spec:
+      containers:
+      - name: node-subscriber
+        image: ocimar/node-subscriber
+        ports:
+        - containerPort: 3000

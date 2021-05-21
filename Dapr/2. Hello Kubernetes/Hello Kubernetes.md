@@ -19,7 +19,7 @@ RUN npm install
 EXPOSE 3000
 CMD [ "node", "app.js" ]
 ```
-(basta consultar o sobre [como usar a iamgem docker do node](https://github.com/nodejs/docker-node/blob/main/README.md#how-to-use-this-image))
+(basta consultar o sobre [como usar a imagem docker do node](https://github.com/nodejs/docker-node/blob/main/README.md#how-to-use-this-image))
 - Cria a imagem: `docker build -t <dockerhub-username>/nodeapp .\node\`
 - E manda para seu dockerub: `docker push <dockerhub-username>/nodeapp`
 
@@ -50,7 +50,7 @@ kind: Component
 
 A estrutura para esse arquivo é [essa](https://docs.dapr.io/reference/api/state_api/#component-file). 
 
-No caso de instalarmos o Redis no nosso cluster usando o Helm, o arquivo segue a exata estrutura abaixo:
+No caso de instalarmos o Redis no nosso cluster usando o [Helm](https://helm.sh/), o arquivo segue a exata estrutura abaixo:
 ~~~yaml
 apiVersion: dapr.io/v1alpha1
 kind: Component

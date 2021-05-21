@@ -421,7 +421,7 @@ deploy:
     manifests:
       # Lista as config-files do Kubernetes
       # Pode ser simplismente a pasta com eles: ./k8s/*
-      # CUIDADO: o skaffold deleta os objetos assim que ele é dechado
+      # CUIDADO: o skaffold deleta os objetos assim que ele é fechado
       # então evite adicionar config-files de objetos que você quer manter
       # em execução
       - <Config-file>

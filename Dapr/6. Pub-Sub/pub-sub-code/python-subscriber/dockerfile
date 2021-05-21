@@ -1,0 +1,6 @@
+FROM python:alpine
+WORKDIR /usr/src/app
+COPY . .
+RUN pip install Flask Flask-Cors
+EXPOSE 5000
+CMD [ "python", "./app.py" ]

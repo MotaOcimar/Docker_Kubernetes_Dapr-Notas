@@ -56,8 +56,7 @@ console.log("Fetching URL: %s", url)
 fetch(url)
 .then(res => res.json())
 .then(json => {
-    let secretValue = Buffer.from(json["<secret-key>"]); // <secret-key> deve ser substituido pela 
-                                                         // chave do segredo
+    let secretValue = Buffer.from(json["MY_SECRET"]);
     // faz algo com secretValue
 })
 ~~~
@@ -130,7 +129,7 @@ spec:
   type: LoadBalancer
 ~~~
 
-### Testanto a aplicação
+### 6. Testanto a aplicação
 1. Considerando que o cluster já estava em execução e [o segredo já foi criado](Secrets%20store.md#2%20Adicionando%20segredos%20ao%20_secret%20store_%20do%20Kubernetes), inicie o Dapr com:
 ~~~sh
 dapr init --kubernetes --wait`
@@ -147,10 +146,57 @@ kubectl rollout status deploy/nodeapp-deployment
 ~~~sh
 kubectl port-forward service/nodeapp-service 8000:80
 ~~~
-E acesse http://127.0.0.1:8000/exposesecret. Deverá carregar uma página como
+E acesse http://127.0.0.1:8000/exposesecret. Deverá carregar uma página com
 ```
 Wow! I know your secret:  
 "I'm Batman"
 ```
 
+
+## 2ª forma: Usando o _secrets stores_ do GCP
+Essa segunda forma será feita com o GCP, mas poderia ser feito com [vários outros _secrets stores_](https://docs.dapr.io/reference/components-reference/supported-secret-stores/).
+
+### 1. Adicionando segredos ao _secret store_ do GCP
+Sigua o [guia do Google](https://cloud.google.com/secret-manager/docs/quickstart).
+
+### 2. Configurando o Componente _secrets_ do Dapr
+Dessa vez teremos que usar um arquivo `.yaml` para configurar o componente de segredos.
+
+O arquivo deve seguir a [este formato](https://docs.dapr.io/reference/components-reference/supported-secret-stores/gcp-secret-manager/):
+~~~yaml
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: gcpsecretmanager
+  namespace: default
+spec:
+  type: secretstores.gcp.secretmanager
+  version: v1
+  metadata:
+  - name: type
+    value: <replace-with-account-type>
+  - name: project_id
+    value: <replace-with-project-id>
+  - name: private_key_id
+    value: <replace-with-private-key-id>
+  - name: client_email
+    value: <replace-with-email>
+  - name: client_id
+    value: <replace-with-client-id>
+  - name: auth_uri
+    value: <replace-with-auth-uri> 
+  - name: token_uri
+    value: <replace-with-token-uri> 
+  - name: auth_provider_x509_cert_url
+    value: <replace-with-auth-provider-cert-url> 
+  - name: client_x509_cert_url
+    value: <replace-with-client-cert-url> 
+  - name: private_key
+    value: <replace-with-private-key>
+~~~
+
+
+### 3. Chamando o componente na aplicação
+
+==INCOMPLETO==
 
