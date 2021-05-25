@@ -18,3 +18,8 @@
 ## Exemplos de implementação
 - [Hello World](Hello%20World/Hello%20World.md)
 - [Hello Kubernetes/Hello Kubernetes](Hello%20Kubernetes/Hello%20Kubernetes.md)
+- [Distributed Calculator](3.%20Distributed%20Calculator/Distributed%20Calculator.md)
+- [Observability](4.%20Observability/Observability.md)
+- [Secrets store](5.%20Secrets%20store/Secrets%20store.md)
+- [Pub-Sub](6.%20Pub-Sub/Pub-Sub.md)
+- [Bindings](7.%20Bindings/Bindings.md)
