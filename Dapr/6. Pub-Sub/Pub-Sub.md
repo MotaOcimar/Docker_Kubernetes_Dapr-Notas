@@ -3,12 +3,11 @@
 **Objetivo**:
 - Criar uma aplicação distribuida que usa o pradrão Pub/Sub
 
-Seguindo o [Quickstrat](https://github.com/dapr/quickstarts), vamos fazer uma aplicação com um publisher:
-- Um Node.js gerador de mensagens
-Dois subscribers:
-- Um Node.js subscriber
-- Um Python subscriber
-E o Redis Stream como componente pubsub.
+Seguindo o [Quickstrat](https://github.com/dapr/quickstarts), vamos fazer uma aplicação:
+- Um publisher Node.js gerador de mensagens
+- Um subscriber Node.js
+- Um subscriber Python
+- Redis Stream como componente pubsub.
 
 Simplificadamente, a arquitetura seria:
 ![Local Architecture Diagram](https://github.com/dapr/quickstarts/raw/master/pub-sub/img/Local_Architecture_Diagram.png)
