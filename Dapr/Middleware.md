@@ -20,7 +20,7 @@ Por isso, facilita o desenvolvimento multiplataforma.
 Trasmite dados de um servidor para vários clientes
 
 
-## Vantágens do Middleware no desenvolvimento Cloud
+## Vantagens do Middleware no desenvolvimento Cloud
 - Reduz a complexidade do desenvolvimento
 - Facilita a integração entre os serviços
 

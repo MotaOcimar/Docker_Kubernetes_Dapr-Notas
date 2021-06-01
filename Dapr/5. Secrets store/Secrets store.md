@@ -78,7 +78,7 @@ EXPOSE 3000
 CMD [ "node", "app.js" ]
 ```
 (basta consultar o sobre [como usar a iamgem docker do node](https://github.com/nodejs/docker-node/blob/main/README.md#how-to-use-this-image))
-- Cria a imagem: `docker build -t <dockerhub-username>/secretstorenode .\node\`
+- Cria a imagem: `docker build -t <dockerhub-username>/secretstorenode  /node/`
 - E manda para seu dockerub: `docker push <dockerhub-username>/secretstorenode`
 
 
@@ -132,7 +132,7 @@ spec:
 ### 6. Testanto a aplicação
 1. Considerando que o cluster já estava em execução e [o segredo já foi criado](Secrets%20store.md#2%20Adicionando%20segredos%20ao%20_secret%20store_%20do%20Kubernetes), inicie o Dapr com:
 ~~~sh
-dapr init --kubernetes --wait`
+dapr init --kubernetes --wait
 ~~~
 3. Aplique as configurações criadas:
 ~~~sh
@@ -142,7 +142,7 @@ kubectl apply -f ./deploy/
 ~~~sh
 kubectl rollout status deploy/nodeapp-deployment
 ~~~
-4. Observe o funcionamento. Caso localmente com o Kubernetes:
+5. Observe o funcionamento. Caso localmente com o Kubernetes:
 ~~~sh
 kubectl port-forward service/nodeapp-service 8000:80
 ~~~

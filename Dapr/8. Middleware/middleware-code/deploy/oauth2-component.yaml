@@ -1,0 +1,30 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: oauth2
+spec:
+  type: middleware.http.oauth2
+  version: v1
+  metadata:
+  - name: clientId
+    secretKeyRef:
+      name: oauth-secret
+      key:  CLIENT_ID
+  - name: clientSecret
+    secretKeyRef:
+      name: oauth-secret
+      key:  CLIENT_SECRET
+    # Escopos selecionados na GCP
+  - name: scopes
+    value: "https://www.googleapis.com/auth/userinfo.email, https://www.googleapis.com/auth/userinfo.profile"
+  - name: authURL
+    value: "https://accounts.google.com/o/oauth2/v2/auth"
+  - name: tokenURL
+    value: "https://accounts.google.com/o/oauth2/token"
+    # URL de redirecionamento após o login (deve ter sido adicionada às URLs
+    # confiáveis ao criar um cliente OAuth no GCP)
+  - name: redirectURL
+    value: "http://dummy.com"
+    # Campo com o token no cabeçalho de requests autenticadas
+  - name: authHeaderName
+    value: "authorization"
