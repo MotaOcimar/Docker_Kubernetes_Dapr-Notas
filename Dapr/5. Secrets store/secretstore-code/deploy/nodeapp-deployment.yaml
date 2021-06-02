@@ -21,3 +21,7 @@ spec:
         image: ocimar/secretstorenode
         ports:
         - containerPort: 3000
+        # Descomente as seguintes lilhas para usar o secret store da AWS
+        # env:
+        #   - name: SECRET_STORE_NAME
+        #     value: awssecretmanager
