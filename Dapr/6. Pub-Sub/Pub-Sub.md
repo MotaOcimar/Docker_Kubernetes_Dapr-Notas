@@ -15,7 +15,7 @@ Simplificadamente, a arquitetura seria:
 Como usaremos o Kubernetes,  a arquitetura será mais parecida com:
 ![K8s Architecture Diagram](https://github.com/dapr/quickstarts/raw/master/pub-sub/img/K8s_Architecture_Diagram.png)
 
-> Obs.: Vou reconstituir uma versão simplificada do [exemplo original](https://github.com/dapr/quickstarts/tree/master/pub-sub), sem front-end.
+> Obs.: Vou reconstituir uma versão simplificada do [exemplo original](https://github.com/dapr/quickstarts/tree/master/pub-sub), sem o front-end em React.
 
 ## 1. Entendendo a API Dapr para o Pub/Sub
 
@@ -24,7 +24,7 @@ Antes de criarmos nossa aplicação, vamos entender como usar a [API Dapr para e
 ### Para o Publisher
 Ele envia suas mensagens usando o seguinte request:
 ~~~http
-POST http://localhost:<daprPort>/v1.0/publish/<pubsubname>/<topic>[?<metadata>]
+POST http://localhost:<daprPort>/v1.0/publish/<pubsubname>/<topic>
 ~~~
 
 O tipo padrão de conteúdo enviado é texto plano (`text/plain`), mas pode ser alterado para json com o seguinte header:
@@ -66,9 +66,9 @@ kind: Subscription
 metadata:
   name: <nome que você desejar>
 spec:
-  topic: <nome do tópico>
-  route: <raota/para/receber/as/mensagens>
   pubsubname: <nome do componente pubsub>
+  topic: <nome do tópico>
+  route: <rota/para/receber/as/mensagens>
 scopes:
 - <nome da aplicação para o Dapr>
 ~~~

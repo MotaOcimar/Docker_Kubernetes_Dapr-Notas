@@ -23,3 +23,4 @@
 - [Secrets store](5.%20Secrets%20store/Secrets%20store.md)
 - [Pub-Sub](6.%20Pub-Sub/Pub-Sub.md)
 - [Bindings](7.%20Bindings/Bindings.md)
+- [Middleware](8.%20Middleware/Middleware.md)

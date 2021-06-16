@@ -43,30 +43,31 @@ Apesar de dá para fazer deploy de Pods diretamente, geralmente usa-se o objeto 
     (Um pod quando é reiniciado tem seu IP modificado. Como isso é algo que acontece com frequência, usa-se o service para receber as chamadas em um IP estável e redirecionar para os pod)
 
 Possui sub-tipos:
+##### ClusterIP
+- Tipo mais básico de Service.
+- Expõe um conjunto de replicas de pods **dentro** do cluster
+    - Mas ainda **não** é possível acessá-lo de fora do cluster
+    ![Pasted image 20210319102624.png](Media/Pasted%20image%2020210319102624.png)
 
 ##### NodePort
 - **APENAS PARA DEV** não usar para produção
 - Propósito: expor portas do node para pods selecionados
     ![Pasted image 20210319102209.png](Media/Pasted%20image%2020210319102209.png)
 
-##### ClusterIP
-- Tipo mais básico de Service.
-- Expõe um conjunto de replicas de pods **dentro** do cluster
-    - Mas ainda **não** é possível acessá-lo de fora do cluster
-    ![Pasted image 20210319102624.png](Media/Pasted%20image%2020210319102624.png)
 ##### LoadBalancer
-- Considerado por alguns como **legacy**
-- Expõe um objeto a um Load Balancer externo
+- Expõe um objeto a um Load Balancer externo, possibilitando um conjunto de pods serem expostos a tráfico externo
 - Um ClusterIp é criado automaticamente
-- Esse objeto tem que ser capaz de fazer o routing interno
+- Posso usar um para cada serviço a ser exposto, ou apenas expor um serviço que faz o routing interno
     ![Pasted image 20210319110338.png](Media/Pasted%20image%2020210319110338.png)
     
 #### Ingress
-- Conjunto de instruções de routing a ser executado por um Ingress-Controller
+- Conjunto de instruções de routing a ser executado por um Ingress-Controller (quem fará o routing interno)
+- Faz sentido usá-lo em conjunto com o loadDalancer para que haja entrada de requests externas a serem roteadas para os serviços internos
 - Obs.:
     - Isso não tira a nececidade de um Load Balancer externo, mas adiciona uma camada de extra de routing e controle
     - Facilita a configuração, pois você apenas passa o estado desejado atravez do Ingress que o Controller conficura o Load Balancer para você
     - Não é um service
+    - Blog post esclarecendo Ingress junto com os demais services: [Getting external traffic into Kubernetes](https://www.ovh.com/blog/getting-external-traffic-into-kubernetes-clusterip-nodeport-loadbalancer-and-ingress/).
     
     ![Pasted image 20210319110140.png](Media/Pasted%20image%2020210319110140.png)
 
@@ -353,7 +354,7 @@ metadata:
     kubernetes.io/ingress.class: 'nginx'
     # Diz para usar regex
     nginx.ingress.kubernetes.io/use-regex: 'true'
-    # "Reescreve" as rotas paraque começem por /
+    # "Reescreve" as rotas para que começem por / quando forem para o serviço desiguinado
     # Ex.: '/api' -> '/'
     # Assim no servidor de destino não será necessário escrever a rota por completo
     nginx.ingress.kubernetes.io/rewrite-target: /$1
@@ -450,7 +451,7 @@ build:
 3. Executa ```scaffold dev```
 ## Alguns comandos úteis
 ### Obeter os objetos de um certo tipo
-```kubectl get <object-name-in-plural>```
+```kubectl get <object type>```
     Ex.: ```kubectl get pods```
 
 ### Obter configurações de um Object
