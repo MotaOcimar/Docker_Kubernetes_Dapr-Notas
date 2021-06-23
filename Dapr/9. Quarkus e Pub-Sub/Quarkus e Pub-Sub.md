@@ -67,32 +67,7 @@ POST http://localhost:<appPort>/<rota/para/receber/as/mensagens>
 
 Será recebido um json com várias informações. A mensagem recebida se encontrará em `data`.
 
-## 2. Configurando o componente Pub/Sub
-Para que o Dapr reconheça o Broker que será utilizado e faça uso devido dessa API, devemos configurar um "componente Dapr" do tipo _pubsub_. Isso é feito com mais um arquivo yaml.
-
-Para esse exemplo, considerarei que temos um broker Rabbit MQ escutando na porta `5672`.
-```ad-tip
-Iniciando um broker Rabbit MQ rapidamente:
-- **Localmente**: `docker run -p 5672:5672 rabbitmq:3`
-- **Kubernetes**: `helm install rabbitmq bitnami/rabbitmq`
-```
-
-Assim, nosso arquivo `pubsub.yaml` ficará algo como:
-~~~yaml
-apiVersion: dapr.io/v1alpha1
-kind: Component
-metadata:
-  name: pubsub
-spec:
-  type: pubsub.rabbitmq
-  version: v1
-  metadata:
-  - name: host
-    value: "amqp://localhost:5672"
-~~~
-> Mais instruções de como configurar esse arquivo [aqui](https://docs.dapr.io/reference/components-reference/supported-pubsub/setup-rabbitmq/).
-
-## 3. Aplicação exemplo
+## 2. Aplicação exemplo
 ### Publisher
 Nesse exemplo, nosso _publisher_ publicará menssagens recebidas por meio de um json no seguinte formato:
 
@@ -272,7 +247,7 @@ public class Subscription {
 
 O SubscriberTwo não precisará dessa classe pois suas inscrições serão feitas pelos seguintes arquivos yaml:
 
-<details>
+<details id="a-subscriptions">
     <summary>a-subscriptions.yaml</summary>
 
 ```yaml
@@ -350,18 +325,81 @@ public class DaprJson {
 ```
 </details>
 
+## 3. Configurando o componente Pub/Sub
+Para que o Dapr reconheça o Broker que será utilizado e faça uso devido dessa API, devemos configurar um "componente Dapr" do tipo _pubsub_. Isso é feito com mais um arquivo yaml.
+
+Para esse exemplo, considerarei que temos um broker Rabbit MQ escutando na porta `5672`.
+> **Dica**: Iniciando um broker Rabbit MQ rapidamente:
+> - **Localmente**: `docker run -p 5672:5672 rabbitmq:3`
+> - **Kubernetes**: `helm install rabbitmq bitnami/rabbitmq`
+
+Assim, nosso arquivo `pubsub.yaml` ficará algo como:
+~~~yaml
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: pubsub
+spec:
+  type: pubsub.rabbitmq
+  version: v1
+  metadata:
+  - name: host
+    value: "amqp://localhost:5672"
+~~~
+> Mais instruções de como configurar esse arquivo [aqui](https://docs.dapr.io/reference/components-reference/supported-pubsub/setup-rabbitmq/).
 
 ## 4. Executando a aplicação
     
 ### Localmente - Desenvolvimento
 
-Antes de começarmos a executar, devemos lembrar que, ao executarmos os três serviços localmente, pode haver conflitos nas portas em que cada um escuta. Para evitar isso, podemos adicionar, para cada um, a seguinte linha ao arquivo `application.properties` localizado em `resources`:
+Antes de começarmos, devemos lembrar que, ao executarmos os três serviços localmente, pode haver conflitos nas portas em que cada um escuta. Para evitar isso, podemos adicionar, para cada um, a seguinte linha ao arquivo `application.properties` localizado em `resources`:
 ```properties
 %dev.quarkus.http.port=<porta desejada>
 ```
 
 Para esse exemplo vamos atribuir as portas `8080`, `8181` e `8282` aos serviços do Publisher, SubscriberOne e SubscriberTwo respectivamente.
     
-Com o [Dapr instalado](https://docs.dapr.io/getting-started/install-dapr-cli/) e o Docker em execução, inicie o Dapr com `dapr init`.
+Prosseguindo, com o [Dapr instalado](https://docs.dapr.io/getting-started/install-dapr-cli/) e o Docker em execução, inicie o Dapr com `dapr init`.
 
-Então, 
+Com o [broker já executando](Quarkus%20e%20Pub-Sub.md#3%20Configurando%20o%20componente%20Pub%20Sub), agora executaremos os serviços com a supervisão do Dapr (cada um em um terminal diferente):
+```sh
+cd diretório/do/projeto/Publisher
+dapr run --app-id publisher --app-port 8080 mvn compile quarkus:dev
+```
+```sh
+cd diretório/do/projeto/SubscriberOne
+dapr run --app-id subscriber-one --app-port 8181 mvn compile quarkus:dev
+```
+```sh
+cd diretório/do/projeto/SubscriberTwo
+dapr run --app-id subscriber-two --app-port 8282 mvn compile quarkus:dev
+```
+
+Vamos entender o que está acontecendo aqui:
+- O `--app-id` define um nome para nosso serviço;
+- O `--app-port` diz ao Dapr a porta em que o serviço escuta;
+- E o `mvn compile quarkus:dev` é o comando que usaríamos para executar o serviço no modo desenvolvedor.
+    
+Prontinho! Para testar, envie a request `POST localhost:8080/publish` com um json no formato que definimos antes:
+```json
+{
+    "topic": "A",
+    "message": "Abracadabra"
+}
+```
+
+Modifique o campo `topic` para `A`, `B` ou `C` e o campo  `message` para o valor que você quiser enviar.
+
+Observe que de fato o SubscriberOne recebe apenas as menssagens dos tópicos `A` e `B`, enquanto o SubscriberTwo apenas as dos tópicos `A` e `C`.
+
+## No Kubernetes
+
+Crie os arquivos de deployment de cada serviço. Em cada um, será necessário adionar o campo _annotations_ em `spec.template.metadata` com algumas informações relevantes ao Dapr:
+```yaml
+annotations:
+  dapr.io/enabled: "true"  # Habilita o sidecar Dapr nos pods desse deployment
+  dapr.io/app-id: "<app-id>"  # Define um nome para o Dapr identificar nosso serviço
+  dapr.io/app-port: "8080"  # Porta em que o seviço escuta
+```
+    
+> Lembre que o `app-id` do SubscriberTwo deverá aparecer novamente nos [arquivos de inscrições já criados](Quarkus%20e%20Pub-Sub.md#a-subscriptions).
