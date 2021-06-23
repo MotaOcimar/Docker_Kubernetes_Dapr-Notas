@@ -546,7 +546,7 @@ kubectl port-forward service/publisher-service 8080:8080
 ```
 Isso tornará seu serviço disponível em [http://localhost:8080](http://localhost:8080/)
 
-Para testar, envie a request `POST <domain>:8080/publish` com um json no formato que definimos antes:
+Para testar, envie a request `POST localhost:8080/publish` com um json no formato que definimos antes:
 ```json
 {
     "topic": "A",
