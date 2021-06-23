@@ -396,7 +396,7 @@ Modifique o campo `topic` para `A`, `B` ou `C` e o campo  `message` para o valor
 
 Observe que de fato o SubscriberOne recebe apenas as menssagens dos tópicos `A` e `B`, enquanto o SubscriberTwo apenas as dos tópicos `A` e `C`.
 
-## No Kubernetes
+### No Kubernetes
 
 Crie os arquivos de deployment de cada serviço. Em cada um, será necessário adiconar o campo _annotations_ em `spec.template.metadata` com algumas informações relevantes ao Dapr:
 ```yaml
