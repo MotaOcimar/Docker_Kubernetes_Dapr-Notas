@@ -283,7 +283,7 @@ scopes:
 ```
 </details>
 
-Aqui, o nome `subscriber-two` passado em `scopes` deverá ser o mesmo passado em `spec.template.metadata.annotations.dapr.io/app-id` no arquivo de configuração de seu Deployment Kubernetes (ou na flag `--app-id` do comando `dapr run` quando localmente). Isso pois este ultimo define como o Dapr o identificará enquanto o primeiro o selecionará.
+Aqui, o nome `subscriber-two` passado em `scopes` deverá ser o mesmo a ser passado posteriormente em `spec.template.metadata.annotations.dapr.io/app-id` no arquivo de configuração de seu Deployment Kubernetes (ou na flag `--app-id` do comando `dapr run` quando localmente). Isso pois este ultimo define como o Dapr o identificará enquanto o primeiro o selecionará.
 
 > **Lembrete**: Aplicando as configurações dos arquivos de inscrições:
 > - **Localmente**: basta colocá-los no diretório `%USERPROFILE%\.dapr\components\` (Windows) ou `$HOME/.dapr/components` (Linux/MacOS).
