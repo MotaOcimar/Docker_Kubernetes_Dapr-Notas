@@ -290,7 +290,7 @@ Aqui, o nome `subscriber-two` passado em `scopes` deverá ser o mesmo a ser pass
 > 
 > - **Kubernetes**: devem ser aplicado com um `kubectl apply -f <nome>.yaml`.
 
-Além disso, ambos os subscribers precisarão da seguinte classe para a formatação do json recebeido pelo Dapr:
+Além disso, ambos os subscribers precisarão da seguinte classe para a formatação do json recebeido do Dapr:
 
 <details>
     <summary>DaprJson.java</summary>
