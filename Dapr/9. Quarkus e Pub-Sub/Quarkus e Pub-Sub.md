@@ -42,7 +42,7 @@ Que deve responder para o Dapr um json no seguinte formato:
 ~~~
 
 ##### Declarativamente
-Outra forma de inscrever aplicações a um tópico é criando um arquivo `subscription.yaml` no seguinte formato:
+Outra forma de inscrever aplicações a um tópico é criando um arquivo `subscriptions.yaml` no seguinte formato:
 ~~~yaml
 apiVersion: dapr.io/v1alpha1
 kind: Subscription
@@ -56,7 +56,7 @@ scopes:
 - <nome da aplicação para o Dapr>
 ~~~
 
-Caso executando o Dapr localmente, basta colocá-lo no diretório `%USERPROFILE%\.dapr\components\` (Windows) ou `$HOME/.dapr/components` (Linux/MacOS). Para deploy no Kubernetes, esse arquivo deve ser aplicado com um `kubectl apply -f subscription.yaml`.
+Caso executando o Dapr localmente, basta colocá-lo no diretório `%USERPROFILE%\.dapr\components\` (Windows) ou `$HOME/.dapr/components` (Linux/MacOS). Para deploy no Kubernetes, esse arquivo deve ser aplicado com um `kubectl apply -f subscriptions.yaml`.
 
 #### Delivery
 Por fim, é preciso configurar no subscriber as rotas passadas na inscrição dos tópicos para que a aplicação receba as devidas mensagens.
@@ -347,6 +347,8 @@ spec:
     value: "amqp://localhost:5672"
 ~~~
 > Mais instruções de como configurar esse arquivo [aqui](https://docs.dapr.io/reference/components-reference/supported-pubsub/setup-rabbitmq/).
+    
+Assim como os arquivos de subscriptions, caso executando o Dapr localmente, basta colocá-lo no diretório `%USERPROFILE%\.dapr\components\` (Windows) ou `$HOME/.dapr/components` (Linux/MacOS). Para deploy no Kubernetes, esse arquivo deve ser aplicado com um `kubectl apply -f pubsub.yaml`.
 
 ## 4. Executando a aplicação
     
@@ -379,7 +381,9 @@ Vamos entender o que está acontecendo aqui:
 - O `--app-id` define um nome para nosso serviço;
 - O `--app-port` diz ao Dapr a porta em que o serviço escuta;
 - E o `mvn compile quarkus:dev` é o comando que usaríamos para executar o serviço no modo desenvolvedor.
-    
+
+> Lembre que o `app-id` do SubscriberTwo aqui definido deverá aparecer novamente nos [arquivos de inscrições já criados](Quarkus%20e%20Pub-Sub.md#a-subscriptions).
+
 Prontinho! Para testar, envie a request `POST localhost:8080/publish` com um json no formato que definimos antes:
 ```json
 {
@@ -394,7 +398,7 @@ Observe que de fato o SubscriberOne recebe apenas as menssagens dos tópicos `A`
 
 ## No Kubernetes
 
-Crie os arquivos de deployment de cada serviço. Em cada um, será necessário adionar o campo _annotations_ em `spec.template.metadata` com algumas informações relevantes ao Dapr:
+Crie os arquivos de deployment de cada serviço. Em cada um, será necessário adiconar o campo _annotations_ em `spec.template.metadata` com algumas informações relevantes ao Dapr:
 ```yaml
 annotations:
   dapr.io/enabled: "true"  # Habilita o sidecar Dapr nos pods desse deployment
@@ -402,4 +406,154 @@ annotations:
   dapr.io/app-port: "8080"  # Porta em que o seviço escuta
 ```
     
-> Lembre que o `app-id` do SubscriberTwo deverá aparecer novamente nos [arquivos de inscrições já criados](Quarkus%20e%20Pub-Sub.md#a-subscriptions).
+> Lembre que o `app-id` do SubscriberTwo aqui definido deverá aparecer novamente nos [arquivos de inscrições já criados](Quarkus%20e%20Pub-Sub.md#a-subscriptions).
+
+Esses arquivos de deployment ficarão como esses:
+
+<details>
+    <summary>publisher-deployment.yaml</summary>
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  publisher
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: publisher
+  template: 
+    metadata:
+      labels:
+        app: publisher
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "publisher"
+        dapr.io/app-port: "8080"
+    spec:
+      containers:
+      - name: publisher
+        image: ocimar/quarkus-publisher
+        ports:
+        - containerPort: 8080
+```
+</details>
+
+<details>
+    <summary>subscriber-one-deployment.yaml</summary>
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  subscriber-one-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: subscriber-one
+  template: 
+    metadata:
+      labels:
+        app: subscriber-one
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "subscriber-one"
+        dapr.io/app-port: "8080"
+    spec:
+      containers:
+      - name: subscriber-one
+        image: ocimar/subscriber-one
+        ports:
+        - containerPort: 8080
+```
+</details>
+    
+<details>
+    <summary>subscriber-two-deployment.yaml</summary>
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  subscriber-two-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: subscriber-two
+  template: 
+    metadata:
+      labels:
+        app: subscriber-two
+      annotations:
+        dapr.io/enabled: "true"
+        dapr.io/app-id: "subscriber-two"
+        dapr.io/app-port: "8080"
+    spec:
+      containers:
+      - name: subscriber-two
+        image: ocimar/subscriber-two
+        ports:
+        - containerPort: 8080
+```
+</details>
+
+Para acessarmos o Publisher externamente, criaremos também um serviço LoadBalancer para ele:
+
+<details>
+    <summary>publisher-service.yaml</summary>
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: publisher-service
+spec:
+  selector:
+    app: publisher
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8000
+  type: LoadBalancer
+```
+</details>
+    
+Protinho! Agora temos os seguintes arquivos de configuração:
+- a-subscriptions.yaml
+- c-subscriptions.yaml
+- pub-sub.yaml
+- publisher-deployment.yaml
+- subscriber-one-deployment.yaml
+- subscriber-two-deployment.yaml    
+- publisher-service.yaml
+
+Podemos colocar todos eles em uma pasta `deploy/` para facilitar.
+    
+Para executarmos toda nossa aplicação agora, [instale o Dapr no seu cluster](https://docs.dapr.io/operations/hosting/kubernetes/kubernetes-deploy/) e o inicie com `dapr init`.
+    
+> Se seu cluster tiver sido criado com o minikube, execute `dapr init --kubernetes --wait`
+
+Lembre de iniciar seu broker corretamente também. Para esse exemplo, executar `helm install rabbitmq bitnami/rabbitmq` basta.
+    
+Agora basta aplicar as configurações criadas nos arquivos yaml com `kubectl apply -f ./deploy`
+
+Existem várias formas diferentes de acessar um serviço Kubernetes dependendo de qual plataforma você está usando. Port forwarding é uma forma consistende de fazer isso se você está hopedado localmente ou em um provedor cloud Kubernetes como AKS.
+```sh
+kubectl port-forward service/publisher-service 8080:8080
+```
+Isso tornará seu serviço disponível em [http://localhost:8000](http://localhost:8080/)
+
+Para testar, envie a request `POST <domain>:8080/publish` com um json no formato que definimos antes:
+```json
+{
+    "topic": "A",
+    "message": "Abracadabra"
+}
+```
+
+Modifique o campo `topic` para `A`, `B` ou `C` e o campo  `message` para o valor que você quiser enviar.
+
+Observe que de fato o SubscriberOne recebe apenas as menssagens dos tópicos `A` e `B`, enquanto o SubscriberTwo apenas as dos tópicos `A` e `C`.
