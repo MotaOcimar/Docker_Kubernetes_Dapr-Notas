@@ -71,9 +71,11 @@ Será recebido um json com várias informações. A mensagem recebida se encontr
 Para que o Dapr reconheça o Broker que será utilizado e faça uso devido dessa API, devemos configurar um "componente Dapr" do tipo _pubsub_. Isso é feito com mais um arquivo yaml.
 
 Para esse exemplo, considerarei que temos um broker Rabbit MQ escutando na porta `5672`.
-> **Dica**: Iniciando um broker Rabbit MQ rapidamente:
-> - **Localmente**: `docker run -p 5672:5672 rabbitmq:3`
-> - **Kubernetes**: `helm install rabbitmq bitnami/rabbitmq`
+```ad-tip
+Iniciando um broker Rabbit MQ rapidamente:
+- **Localmente**: `docker run -p 5672:5672 rabbitmq:3`
+- **Kubernetes**: `helm install rabbitmq bitnami/rabbitmq`
+```
 
 Assim, nosso arquivo `pubsub.yaml` ficará algo como:
 ~~~yaml
