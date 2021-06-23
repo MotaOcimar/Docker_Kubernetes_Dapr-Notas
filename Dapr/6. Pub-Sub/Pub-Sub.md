@@ -22,19 +22,19 @@ Como usaremos o Kubernetes,  a arquitetura será mais parecida com:
 Antes de criarmos nossa aplicação, vamos entender como usar a [API Dapr para esse componente](https://docs.dapr.io/reference/api/pubsub_api/). Assim, quando formos criá-la, já saberemos o que chamar.
 
 ### Para o Publisher
-Ele envia suas mensagens usando o seguinte request:
+Ele deve enviar suas mensagens usando a seguinte request:
 ~~~http
 POST http://localhost:<daprPort>/v1.0/publish/<pubsubname>/<topic>
 ~~~
 
-O tipo padrão de conteúdo enviado é texto plano (`text/plain`), mas pode ser alterado para json com o seguinte header:
+O tipo padrão de conteúdo enviado é `text/plain`, mas pode ser alterado para json com o seguinte header:
 ~~~
 Content-Type: application/json
 ~~~
 
 ### Para o Subscriber
 #### Subscriptions
-Primeiramente, o Dapr precisa saber em que tópicos ele está inscrito e por qual rota serão enviadas as mensagens. Isso pode ser feito de duas formas: programaticamente com uma rota GET para o Dapr ou declarativamente usando um arquivo `subscription.yaml`.
+Primeiramente, o Dapr precisa saber em que tópicos ele está inscrito e por qual rota serão enviadas as mensagens. Isso pode ser feito de duas formas: [programaticamente](https://docs.dapr.io/developing-applications/building-blocks/pubsub/howto-publish-subscribe/#programmatic-subscriptions) com uma rota GET para o Dapr ou [declarativamente](https://docs.dapr.io/developing-applications/building-blocks/pubsub/howto-publish-subscribe/#declarative-subscriptions) usando um arquivo `subscription.yaml`.
 
 ##### Programaticamente
 No servidor ou aplicação que deseja se inscrever em determinados tópicos, deve-se disponibilizar uma rota GET no seguinte padrão:
@@ -74,17 +74,17 @@ scopes:
 ~~~
 
 #### Delivery
-Por fim, é preciso configurar as rotas passadas na inscrição dos tópicos para que a aplicação receba as devidas mensagens.
+Por fim, é preciso configurar no subscriber as rotas passadas na inscrição dos tópicos para que a aplicação receba as devidas mensagens.
 Ex.:
 ~~~http
 POST http://localhost:<appPort>/<1st/topic/route>
 ~~~
 
-Será recebido um json com várias informações. A mensagem enviada se encontrará em `data`.
+Será recebido um json com várias informações. A mensagem recebida se encontrará em `data`.
 
 
 ## 2. Configurando o componente Pub/Sub
-Como de constume, faremos um arquivo yaml para o componente Pub/Sub. As especificações podem variar [de acordo com o Brocker](https://docs.dapr.io/reference/components-reference/supported-pubsub/) usado.
+Como de constume, faremos um arquivo yaml para o componente Pub/Sub. As especificações podem variar [de acordo com o Broker](https://docs.dapr.io/reference/components-reference/supported-pubsub/) usado.
 
 Instalando o Redis no nosso cluster a partir do [Helm](https://helm.sh/), o arquivo yaml tem a seguinte configuração:
 ~~~yaml
