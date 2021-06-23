@@ -306,7 +306,7 @@ scopes:
 ```
 </details>
 
-Aqui, o nome `subscriber-two` passado em `scopes` deverá ser o mesmo passado em `spec.template.metadata.annotations.dapr.io/app-id` no arquivo de configuração de seu Deployment Kubernetes. Isso pois este ultimo define como o Dapr o identificará enquanto o primeiro o selecionará.
+Aqui, o nome `subscriber-two` passado em `scopes` deverá ser o mesmo passado em `spec.template.metadata.annotations.dapr.io/app-id` no arquivo de configuração de seu Deployment Kubernetes (ou na flag `--app-id` do comando `dapr run` quando localmente). Isso pois este ultimo define como o Dapr o identificará enquanto o primeiro o selecionará.
 
 > **Lembrete**: Aplicando as configurações dos arquivos de inscrições:
 > - **Localmente**: basta colocá-los no diretório `%USERPROFILE%\.dapr\components\` (Windows) ou `$HOME/.dapr/components` (Linux/MacOS).
@@ -351,4 +351,15 @@ public class DaprJson {
 
 ## 4. Executando a aplicação
     
-### Localmente
+### Localmente - Desenvolvimento
+
+Antes de começarmos a executar, devemos lembrar que, ao executarmos os três serviços localmente, pode haver conflitos nas portas em que cada um escuta. Para evitar isso, podemos adicionar, para cada um, a seguinte linha ao arquivo `application.properties` localizado em `resources`:
+```properties
+%dev.quarkus.http.port=<porta desejada>
+```
+
+Para esse exemplo vamos atribuir as portas `8080`, `8181` e `8282` aos serviços do Publisher, SubscriberOne e SubscriberTwo respectivamente.
+    
+Com o [Dapr instalado](https://docs.dapr.io/getting-started/install-dapr-cli/) e o Docker em execução, inicie o Dapr com `dapr init`.
+
+Então, 
