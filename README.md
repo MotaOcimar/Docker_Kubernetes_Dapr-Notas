@@ -17,3 +17,5 @@ Notas de aprendizado com base no [getting started](https://docs.dapr.io/getting-
 
 - [Dapr  - Ideias principais](Dapr/Dapr%20%20-%20Ideias%20principais.md)
 - [Dapr - Implementacao](Dapr/Dapr%20-%20Implementacao.md)
+- [Dapr - Erros e Dicas](Dapr/Dapr%20-%20Erros%20e%20Dicas.md)
+- [Estimativa de custo extra](Dapr/Estimativa%20de%20custo%20extra.md)
