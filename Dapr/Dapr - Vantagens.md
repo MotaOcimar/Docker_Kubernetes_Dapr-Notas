@@ -22,4 +22,5 @@
 ## [Middleware](8.%20Middleware/Middleware.md)
 ### Em Usar o componente de Middleware OAuth2
 - Não foi preciso se preocupar em implementar o OAuth2
+    - Isso garante segurança para a implementação do OAuth2
 - Todas as requestes para os microserviços selecionados já chegam autenticadas

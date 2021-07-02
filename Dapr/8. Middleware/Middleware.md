@@ -77,7 +77,7 @@ spec:
       key:  CLIENT_SECRET
     # Escopos selecionados na GCP
   - name: scopes
-    value: "https://www.googleapis.com/auth/userinfo.email, https://www.googleapis.com/auth/userinfo.profile"
+    value: "https://www.googleapis.com/auth/userinfo.email, https://www.googleapis.com/auth/userinfo.profile"
   - name: authURL
     value: "https://accounts.google.com/o/oauth2/v2/auth"
   - name: tokenURL
@@ -86,7 +86,7 @@ spec:
     # confiáveis ao criar um cliente OAuth no GCP)
   - name: redirectURL
     value: "http://dummy.com"
-    # Campo com o token no cabeçalho de requests autenticadas
+    # Nome do campo com o token a ser injetado no cabeçalho das requests
   - name: authHeaderName
     value: "authorization"
 ~~~
