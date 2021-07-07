@@ -1,5 +1,15 @@
 # Dapr - Vantagens
 
+## De modo geral
+- Agnostico tanto em linguagem como em plataforma
+    - Qualquer linguagem pode fazer uso do Dapr por meio de sua API HTTP ou gRPC
+    - Pode ser executado tanto em Cloud com Kubernetes como em uma máquina "self-hosted"
+
+## Service-to-Service invocation
+- Torna fácil de encontrar os micro-servicos na rede interna
+- É uma comunicação segura (toda em gRPC)
+
+
 ## [Hello World](Dapr/1.%20Hello%20World/Hello%20World.md), [Hello Kubernetes](Dapr/2.%20Hello%20Kubernetes/Hello%20Kubernetes.md) e [Distributed Calculator](Dapr/3.%20Distributed%20Calculator/Distributed%20Calculator.md)
 ### Em usar a API Dapr
 - Não precisei criar um serviço para permitir a comunicação entre Pods;

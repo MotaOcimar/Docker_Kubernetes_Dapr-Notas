@@ -77,7 +77,7 @@ scopes:
 Por fim, é preciso configurar no subscriber as rotas passadas na inscrição dos tópicos para que a aplicação receba as devidas mensagens.
 Ex.:
 ~~~http
-POST http://localhost:<appPort>/<1st/topic/route>
+POST http://localhost:<appPort>/<topicRoute>
 ~~~
 
 Será recebido um json com várias informações. A mensagem recebida se encontrará em `data`.

@@ -117,3 +117,7 @@ kubectl port-forward service/zipkin-service 9000:9411
 Isso fará a aplicação estar disponível em http://localhost:80/ (ou simplismente http://localhost/) e o dashboard do Zipkin acessível em http://localhost:9000/.
 
 Um exemplo de como encontrar problemas com o Zipkin está bem explicado no [repositório original](https://github.com/dapr/quickstarts/tree/master/observability#discover-and-troubleshoot-a-performance-issue-using-zipkin) desse Quickstart.
+
+> :warning: Observação:
+> 
+> Para esse exemplo, para um serviço aparecer no tracing ele deve ter sido chamado atravez da API do Dapr

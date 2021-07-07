@@ -30,6 +30,9 @@ Vai ser executado em algo parecido com NameSpace e CGroups
 - ``` docker ps```
     - Lista os containers em execução
 
+### Parar a execução de uma imagem
+` docker stop <container-id>`
+
 ### Executar comandos dentro de um conteiner em execução
 - ```docker exec -it <container-id> <command>```
     - ```it``` formata as entradas e saídas no seu terminal

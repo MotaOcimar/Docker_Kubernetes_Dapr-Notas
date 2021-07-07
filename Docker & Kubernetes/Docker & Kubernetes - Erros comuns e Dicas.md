@@ -1,4 +1,4 @@
-# Docker & Kubernetes - Erros comuns e Boas práticas
+# Docker & Kubernetes - Erros comuns e Dicas
 
 ## Docker
 ### [[Docker/Docker#Passo 2: Construir a imagem|Construindo a imagem]]

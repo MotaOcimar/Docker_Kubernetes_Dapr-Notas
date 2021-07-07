@@ -15,10 +15,11 @@ Podem ser dos seguintes tipos:
 - [Middleware](https://github.com/dapr/components-contrib/tree/master/middleware)
 - [Service discovery name resolution](https://github.com/dapr/components-contrib/tree/master/nameresolution)
 - [Secret stores](https://github.com/dapr/components-contrib/tree/master/secretstores)
-- [State](https://github.com/dapr/components-contrib/tree/master/state)
+- [State Store](https://github.com/dapr/components-contrib/tree/master/state)
 
     
 ## Building Blocks
+![](https://docs.dapr.io/images/building_blocks.png)
 É uma API HTTP/gRPC Darp que usa um ou mais componentes citados acima.
 Endereça desafios em comum.
 Podem ser usados independetemente.
@@ -37,8 +38,6 @@ Podem ser usados independetemente.
     Faz um tracing dos eventos correlatos mesmo que eles sejam de seriços distintos.
 7. Secrets\
     Gerencia dados sensíveis como autenticação, OAuth, tokenização, etc
-8. Extensibilidade\
-    Extender as funcionalidades do Dapr
 
 ## Arquitetura _sidecar_
 - Para cada serviço criado é criado também um serviço Dapr que vai acompanhá-lo.
