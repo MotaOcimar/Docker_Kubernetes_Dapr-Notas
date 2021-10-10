@@ -10,7 +10,7 @@ Conjunto de processos e recursos agrupados e isolados dos demais grupos
 
 ## Docker image:
 Possui:
-    - Uma "foto" do sistema de arquivos com App e suas dependencias instalados
+    - Uma "foto" do sistema de arquivos com App e suas dependências instalados
     - Comandos a serem executados
 Vai ser executado em algo parecido com NameSpace e CGroups
 ![Pasted image 20210305141729.png](Media/Pasted%20image%2020210305141729.png)
@@ -19,11 +19,11 @@ Vai ser executado em algo parecido com NameSpace e CGroups
 # Docker
 ## Comandos Básicos de execução
 ### Executar uma imagem
-- ``` docker run <iamge>``` ou ``` docker run <iamge> <command>```
+- ``` docker run <image>``` ou ``` docker run <image> <command>```
     - Executa uma imagem com o seu comando padrão ou vc sobrescreve com outro comando
     - Assim que o comando termina, o conteiner é finalizado e removido 
-    - ``` docker run <iamge> <command>``` é o mesmo que ``` docker create <iamge> <command>``` + ``` docker start -a <container-id>```
-        - ``` docker create <iamge> <command>``` escreve a imagem do FileSystem no disco e define a função de startup (sem executa-la ainda)
+    - ``` docker run <image> <command>``` é o mesmo que ``` docker create <image> <command>``` + ``` docker start -a <container-id>```
+        - ``` docker create <image> <command>``` escreve a imagem do FileSystem no disco e define a função de startup (sem executa-la ainda)
         - ``` docker start -a <container-id>``` executa o comando de startup no container
             - ```-a``` indica para printar o output na tela == ``` docker logs <container-id>```
 ### Listar imagens em execução

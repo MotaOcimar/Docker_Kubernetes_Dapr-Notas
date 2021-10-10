@@ -74,7 +74,7 @@ Possui sub-tipos:
 #### Volume
 - Um objeto que possibilita um container armazenar dados fora de si mesmo, mas ainda dentro do pod
     ![Pasted image 20210318110159.png](Media/Pasted%20image%2020210318110159.png)
-- Caso o container morra, mas o pod não, os dados persistem. Porém se o pode morrer, os dados também se vão. Logo **não** é tão seguro.
+- Caso o container morra, mas o pod não, os dados persistem. Porém se o pod morrer, os dados também se vão. Logo **não** é tão seguro.
 - Obs.: Não confundir com o termo "volume" usando em Docker, que se refere a um mecanismo de acesso de dados.
     ![Pasted image 20210318105552.png](Media/Pasted%20image%2020210318105552.png)
     
@@ -94,14 +94,14 @@ Possui sub-tipos:
 
 #### Dev vs Production
 ![Pasted image 20210315104012.png](Media/Pasted%20image%2020210315104012.png)
-- Minikube é usado localmente apenas, para desenvolviment.
+- Minikube é usado localmente apenas, para desenvolvimento.
 - Na produção, geralmente já há outros gerenciadores de clusters
     - Mas você pode fazer isso por conta própria se quiser
 
 #### Minikube & Kubernetes
 ![Pasted image 20210315104120.png](Media/Pasted%20image%2020210315104120.png)
-- Kubernetes: Gerencia os conteiners nos nós
-- Minikube: Gerencia as VM em que os nós rodam
+- Kubernetes: Gerencia os conteiners. Roda em um cluster.
+- Minikube: Gerencia um cluster virtual. Roda em uma máquina local.
 
 #### Alguns comandos
 ##### Iniciar cluster no windows:

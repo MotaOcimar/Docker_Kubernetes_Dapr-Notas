@@ -168,7 +168,7 @@ RUN npm install
 EXPOSE 3000
 CMD [ "node", "app.js" ]
 ```
-(basta consultar o sobre [como usar a iamgem docker do node](https://github.com/nodejs/docker-node/blob/main/README.md#how-to-use-this-image))
+(basta consultar o sobre [como usar a imagem docker do node](https://github.com/nodejs/docker-node/blob/main/README.md#how-to-use-this-image))
 - Cria a imagem: `docker build -t <dockerhub-username>/secretstorenode  /node/`
 - E manda para seu dockerub: `docker push <dockerhub-username>/secretstorenode`
 
