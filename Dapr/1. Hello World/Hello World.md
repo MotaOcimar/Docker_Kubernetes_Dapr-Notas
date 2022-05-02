@@ -2,7 +2,7 @@
 
 **Objetivos**:
 - Aprender a rodar o Dapr localmente;
-- Aprender usar a API do Dapr para intermediar a comunicação com microserviçoes;
+- Aprender usar a API do Dapr para intermediar a comunicação entre microserviços;
 - Aprender a usar gerenciamento de estados (_state management_) junto com o Dapr;
 
 ## 1. Criando um servidor simples com Node.js
@@ -54,20 +54,24 @@ Para o post, nosso app está configurado para receber um JSON no seguinte format
 }
 ~~~
 
-Para simplismente testarmos nosso servidor, podemos executar o comando `node app.js` (lembre de instalar as dependências antes) e, então, enviar as requisições nas rotas criadas.
+Para simplesmente testarmos nosso servidor, podemos executar o comando `node app.js` (lembre de instalar as dependências antes) e, então, enviar as requisições nas rotas criadas.
 ![just-server](just-server.png)
 
 
 ## 2. Fazendo uso da API do Dapr
-Agora que temos [Dapr instalado](../Dapr%20-%20Implementacao.md#Instalações) localmente, podemos utilizá-lo para intermediar a comunicação com nosso servidor.
+Agora que temos [Dapr instalado](Dapr/Dapr%20-%20Instalacao.md#Instalações) localmente, podemos utilizá-lo para intermediar a comunicação com nosso servidor.
 
-Para isso, executamos o Dapr ao lado de nossa aplicação com o seguinte comando (lembre que o Docker precisa estar em execução):
+Para isso, executamos o Dapr ao lado de nossa aplicação com o seguinte comando:
+> Lembre de:
+> - O Docker precisa estar em execução
+> - Executar o comando no mesmo diretório que está o arquivo `app.js`
+
 ~~~sh
 dapr run --app-id nodeapp --app-port 3000 --dapr-http-port 3500 node app.js
 ~~~
 
 Vamos entender o que está acontecendo aqui:
-- O `--app-id` define um nome para nossa aplicação. Nesse caso, _nodeapp_;
+- O `--app-id` define um nome para nossa aplicação. Nesse caso, `nodeapp`;
 - O `--app-port` define a porta de comunicação com a aplicação. Como nosso servidor escuta na porta 3000, devemos escolher `--app-port 3000`;
 - O `--dapr-http-port` define a porta em que o Dapr escutará. A porta padrão é 3500, mas se não fornecida será escolhida uma porta aleatória;
 - E o `node app.js` é o comando para executar nosso servidor.

@@ -3,6 +3,8 @@
 **Objetivo**:
 - Recriar o exemplo [Hello World](../1.%20Hello%20World/Hello%20World.md) usando Kubernetes;
 
+![Arquitetura](https://github.com/dapr/quickstarts/raw/master/tutorials/hello-kubernetes/img/Architecture_Diagram.png)
+
 
 ## 1. Criando as imagens Docker
 Para usar o kubernetes vamos precisar usar imagens Docker. Podemos usar imagens prontas ou construir as nossas próprias.
@@ -38,19 +40,25 @@ CMD [ "python", "./app.py" ]
 - E manda para seu dockerub: `docker push <dockerhub-username>/pythonapp`
 
 ## 2. Criando as config-files do Kubernetes
-Seguem a mesma lógica já comentada [aqui](../../Docker%20&%20Kubernetes/Kubernetes/Kubernetes.md#2%20Criar%20config-files%20para%20cada%20objeto).
+Seguem [a mesma lógica já comentada](../../Docker%20&%20Kubernetes/Kubernetes/Kubernetes.md#2%20Criar%20config-files%20para%20cada%20objeto).
 Para organizar, vamos salvar todas essas config-files em `./deploy/`.
 
 ### Para o _state store_ redis
-Para esse objeto em espeífico, não usaremos uma `apiVersion` padrão do Kubernetes, mas do proprio Dapr. Assim, podemos criar um objeto do tipo componente.
+Para esse objeto em específico, usaremos uma `apiVersion` que não faz parte das padrões do Kubernetes, mas sim do proprio Dapr. Assim, podemos criar um objeto do tipo componente.
 ~~~yaml
 apiVersion: dapr.io/v1alpha1
 kind: Component
 ~~~
 
-A estrutura para esse arquivo é [essa](https://docs.dapr.io/reference/api/state_api/#component-file). 
+A explicação da estrutura para esse arquivo está descrita na [documentação](https://docs.dapr.io/reference/components-reference/supported-state-stores/setup-redis/). 
 
 No caso de instalarmos o Redis no nosso cluster usando o [Helm](https://helm.sh/), o arquivo segue a exata estrutura abaixo:
+> Instalação do Redis usando o helm:
+> ```sh
+> helm repo add bitnami https://charts.bitnami.com/bitnami
+> helm install redis bitnami/redis
+> ```
+
 ~~~yaml
 apiVersion: dapr.io/v1alpha1
 kind: Component
@@ -71,7 +79,7 @@ auth:
 ~~~
 
 ### Para o nodeapp
-Será um deployment. Seguindo as especificações comentadas [aqui](../../Docker%20&%20Kubernetes/Kubernetes/Kubernetes.md#Deployment), fica inicialmente assim:
+Será um deployment. Seguindo as especificações já [comentadas anteriormente](../../Docker%20&%20Kubernetes/Kubernetes/Kubernetes.md#Deployment), fica inicialmente assim:
 ~~~yaml
 apiVersion: apps/v1
 kind: Deployment
@@ -94,7 +102,7 @@ spec:
         - containerPort: 3000
 ~~~
 
-Para que o _Dapr control plane_ injecte um sidecar automaticamente e se comunique devidamente com os outros serviços, devemos adicionar as seguintes anotações em `specs.template.metadata.anotations`:
+Para que o _Dapr control plane_ injete um sidecar automaticamente e se comunique devidamente com os outros serviços, devemos adicionar as seguintes anotações em `specs.template.metadata.anotations` das especificações acima:
 ~~~yaml
 dapr.io/enabled: "true"     # Diz para o Dapr control plan injetar um sidecar nesse deployment
 dapr.io/app-id: "nodeapp"   # Identifica de forma única essa aplicação para o Dapr
@@ -155,14 +163,14 @@ spec:
 ~~~
 
 
-### Para os _Services_ Kubernetes?
+### E os _Services_ Kubernetes?
 Normalmente, para que _pods_ (ou _deployments_) independentes comuniquem-se entre si, é necessário usar um objeto do tipo _service_ _clusteIP_ que identificará aquele pod ou conjunto de pods no cluster e possibilitará a comunicação entre eles.
 
 Mas, como estamos usando o Dapr, toda a comunicação entre os serviços dentro do cluster é feita por meio da API Dapr. Sendo assim, não é mais necessário usar um _clusterIP_ para nosso exemplo aqui.
 
 ## 3. Iniciando o Dapr no seu Cluster
 Com o cluster em execução (seja Minikube, AKS ou GKE) execute `dapr init --kubernetes --wait`
-    - O deployment do Kubernetes é assíncrono por padrão. O `--wait` grante que o _dapr control plane_ teve seu deploy completo e está executnado antes de continuarmos.
+    - O deployment do Kubernetes é assíncrono por padrão. O `--wait` garante que o _Dapr Control Plane_ teve seu deploy completo e estará executando antes de continuarmos.
 
 ### Configurar e criar o componente de estados
 - [Criar um armazenamento Redis](https://docs.dapr.io/getting-started/configure-state-pubsub/#create-a-redis-store) - Dependendo de que plataforma (kubernetes, AWS, GCP ou Azure) você está usando

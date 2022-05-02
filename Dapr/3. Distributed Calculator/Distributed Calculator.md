@@ -1,7 +1,7 @@
 # Distributed Calculator
 
 **Objetivo**:
-- Cirar uma calculadora em que cada operação é executada por um serviço diferente:
+- Criar uma calculadora em que cada operação é executada por um serviço diferente:
     -   **Adição**: Aplicação Go [mux](https://github.com/gorilla/mux)
     -   **Multiplicação**: Aplicação Python [flask](https://flask.palletsprojects.com/en/1.0.x/)
     -   **Divisão**: Aplicação Node [Express](https://expressjs.com/)
@@ -10,10 +10,10 @@
 
 Além desses haverá um front-end em React.
 
-![Architecture Diagram](https://github.com/dapr/quickstarts/raw/master/distributed-calculator/img/Architecture_Diagram.png)
+![Architecture Diagram](https://raw.githubusercontent.com/dapr/quickstarts/master/tutorials/distributed-calculator/img/Architecture_Diagram.png)
 
 
-**De modo geral, o [exemplo fornecido originalmente](https://github.com/dapr/quickstarts/tree/master/distributed-calculator) é bem compreecível, pricipalmente a luz dos exemplos anteiriores.**
+**De modo geral, o [exemplo fornecido originalmente](https://github.com/dapr/quickstarts/tree/master/distributed-calculator) é bem compreensível, principalmente a luz dos exemplos anteriores.**
 
 Vou apenas tomar algumas notas de como posso reproduzir
 
@@ -34,7 +34,7 @@ Recomendo, porém, dar ao menos uma olhada na [implementação do front-end](htt
 ## 2. Criando as config-files do Kubernetes
 
 ### Para os deployments
-Serão 5 deployments: cada uma das 4 operação mais o front-end.
+Serão 5 deployments: um para cada operação mais o front-end.
 
 Cada uma delas segue o mesmo padrão explicado no [Hello Kubernetes](../2.%20Hello%20Kubernetes/Hello%20Kubernetes.md#Para%20o%20nodeapp)
 

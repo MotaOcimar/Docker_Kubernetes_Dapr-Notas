@@ -1,6 +1,9 @@
-# Dapr - Implementação
+# Dapr - Instalação
 
-## Instalação
+## Usando o Dapr CLI
+> Disponível na [Doc](https://docs.dapr.io/getting-started/install-dapr-cli/)
+
+
 1. De acordo com seu SO, execute o código a seguir
     - Linux:
     `wget -q https://raw.githubusercontent.com/dapr/cli/master/install/install.sh -O - | /bin/bash`
@@ -14,6 +17,9 @@
 - Execute `dapr init`
 
 3. Prontinho :)
+
+## Usando Helm Chart
+Ver [doc](https://docs.dapr.io/operations/hosting/kubernetes/kubernetes-deploy/#install-with-helm-advanced).
 
 ## Exemplos de implementação
 - [Hello World](Hello%20World/Hello%20World.md)
