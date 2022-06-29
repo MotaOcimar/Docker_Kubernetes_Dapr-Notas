@@ -1,15 +1,15 @@
 # Secrets store
 
 **Objetivo**:
-- Fazer o Dapr acessar e recuperar segredos salvos em _secrets stores_ (como o GCP _secret management_ ou o prórprio Kubernetes)
+- Fazer o Dapr acessar e recuperar segredos salvos em _secrets stores_ (como o GCP _secret management_ ou o próprio Kubernetes)
 - Fazer uma aplicação acessar tais segredos por meio da API Dapr
 - Obter segredos para um arquivo de configuração `.yaml` com ajuda do Dapr
 
 
 ## 1. Entendendo como obter ou referenciar os secrets com a ajuda do Dapr
-Antes de criarmos nossa aplicação, vamos entender como podemos fazer uso dos secrets gerenciados com a ajuda do Dapr.
+Antes de criarmos nossa aplicação, vamos entender como podemos fazer uso dos _secrets_ gerenciados com a ajuda do Dapr.
 
-Existem dois casos de uso principais em que é desejável obter ou referenciar um _secret_ armazenado em um secret store:
+Existem dois casos de uso principais em que é desejável obter ou referenciar um _secret_ armazenado em um _secret store_:
 - Para o uso interno dentro de uma aplicação ou microserviço;
 - Em arquivos de configuração do deploy, geralmente com alguma credencial de acesso.
 
@@ -28,7 +28,7 @@ E recebemos um json no seguinte formato:
 ~~~
 
 ### Referenciando o secret em arquivos de configuração
-[Para referenciá-los em arquivos de configuração](https://docs.dapr.io/operations/components/component-secrets/#referencing-secrets), basta adicionar o campo `secretKeyRef` no lugar do valar explícito e, em `auth.secretStore`, indicar qual o nome do componente de _secret store_ está sendo usado.
+[Para referenciá-los em arquivos de configuração](https://docs.dapr.io/operations/components/component-secrets/#referencing-secrets), basta adicionar o campo `secretKeyRef` no lugar do valor explícito e, em `auth.secretStore`, indicar qual o nome do componente de _secret store_ está sendo usado.
 
 Ex.:
 ~~~yaml
@@ -97,7 +97,7 @@ O arquivo final deverá se parecer com este [app.js](secretstore-code/node/app.j
 
 ## 3. Configurando o componente de _secrets stores_
 
-### 1º forma: Usando o _secrets stores_ do Kubernetes
+### 1º Exemplo: Usando o _secrets stores_ do Kubernetes
 
 #### 3.1. Adicionando segredos ao _secret store_ do Kubernetes
 Basta criar um objeto [_secret_ do Kubernetes](../../Docker%20&%20Kubernetes/Kubernetes/Kubernetes.md#Secret) contendo o conjunto chave-valor do seu segredo.
@@ -106,17 +106,17 @@ Basta criar um objeto [_secret_ do Kubernetes](../../Docker%20&%20Kubernetes/Kub
 
 
 #### 3.2. Configurando o Componente _secrets_ do Dapr
-Normalmente, para configurar o componente de segredos localmente usamos um arquivo `.yaml`. Porém, [para o Kubernets o Dapr já é capaz de usar seu _secret store_ sem configurações adicionais](https://docs.dapr.io/reference/components-reference/supported-secret-stores/kubernetes-secret-store/).
+Normalmente, para configurar o componente de segredos localmente usamos um arquivo `.yaml`. Porém, [para o Kubernetes o Dapr já é capaz de usar seu _secret store_ sem configurações adicionais](https://docs.dapr.io/reference/components-reference/supported-secret-stores/kubernetes-secret-store/).
 
 Os segredos podem ser obtidos por meio da URL `http://localhost:<daprPort>/v1.0/secrets/kubernetes/<secret-object>`.
 
 Para o exemplo dado acima, nossa URL será `http://localhost:<daprPort>/v1.0/secrets/kubernetes/top-secret` e já foi configurada no código do nosso aplicativo node.
 
-### 2ª forma: Usando o _AWS Secrets Manager_
+### 2ª Exemplo: Usando o _AWS Secrets Manager_
 Essa segunda forma será feita com a AWS, mas poderia ser feito com [vários outros _secrets stores_](https://docs.dapr.io/reference/components-reference/supported-secret-stores/).
 
 #### 3.1. Adicionando segredos ao _secret store_ da AWS
-Sigua as [instruções na AWS](https://aws.amazon.com/pt/secrets-manager/).
+Siga as [instruções na AWS](https://docs.aws.amazon.com/pt_br/secretsmanager/latest/userguide/create_secret.html).
 
 Para esse exemplo, eu criarei um segredo de nome `top-secret`, chave `MY_SECRET` e valor `I'm Batman`.
 
@@ -148,9 +148,9 @@ spec:
       key:  SECRET_KEY
 ~~~
 
-Como ainda não há nenhum outro componente de _secret store_ configurado além do Kubernetes, devemos utilizá-lo para armazenar nossas credenciais:
+Como ainda não há nenhum outro componente de _secret store_ configurado além do Kubernetes, vamos utilizá-lo para armazenar nossas credenciais:
 ~~~sh
-kubectl create secret generic aws-secret --from-literal ACCESS_KEY="<seu ID da chave de acesso>" --from-literal SECRET_KEY="<sua chave de acesso secreta>"
+kubectl create secret generic aws-secret --from-literal ACCESS_KEY="<seu ID da chave de acesso>" --from-literal SECRET_KEY="<sua chave secreta>"
 ~~~
 
 

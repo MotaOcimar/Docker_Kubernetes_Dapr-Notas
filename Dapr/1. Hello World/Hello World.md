@@ -59,7 +59,7 @@ Para simplesmente testarmos nosso servidor, podemos executar o comando `node app
 
 
 ## 2. Fazendo uso da API do Dapr
-Agora que temos [Dapr instalado](Dapr/Dapr%20-%20Instalacao.md#Instalações) localmente, podemos utilizá-lo para intermediar a comunicação com nosso servidor.
+Agora que temos [Dapr instalado](Dapr/Dapr%20-%20Instalando%20e%20Executanto.md#Instalações) localmente, podemos utilizá-lo para intermediar a comunicação com nosso servidor.
 
 Para isso, executamos o Dapr ao lado de nossa aplicação com o seguinte comando:
 > Lembre de:

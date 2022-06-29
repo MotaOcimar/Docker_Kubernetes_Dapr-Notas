@@ -2,7 +2,7 @@
 > Obs.: Muitas outros erros comuns na [documentação](https://docs.dapr.io/operations/troubleshooting/common_issues/)
 
 ## Problema: Deploy demorando muito para finalizar
-Lembre de instalar os demais containers que o Dapr fazrá uso. Geralmente algo como o Redis ou Kafka.
+Lembre de instalar os demais containers que o Dapr fará uso. Geralmente algo como o Redis ou Kafka.
 
 Se continuar sem funcionar, olhe a [documentação](https://docs.dapr.io/operations/troubleshooting/common_issues/#my-pod-is-in-crashloopbackoff-or-another-failed-state-due-to-the-daprd-sidecar).
 

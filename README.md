@@ -16,6 +16,6 @@ Minhas notas de aula do curso [Docker and Kubernetes: The Complete Guide](https:
 Notas de aprendizado com base no [getting started](https://docs.dapr.io/getting-started/)
 
 - [Ideias principais](Dapr/Dapr%20%20-%20Ideias%20principais.md)
-- [Implementacao](Dapr/Dapr%20-%20Instalacao.md)
+- [Implementacao](Dapr/Dapr%20-%20Instalando%20e%20Executanto.md)
 - [Erros e Dicas](Dapr/Dapr%20-%20Erros%20e%20Dicas.md)
 - [Estimativa de custo extra](Dapr/Dapr%20-%20Estimativa%20de%20custo%20extra.md)

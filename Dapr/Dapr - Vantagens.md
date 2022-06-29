@@ -1,12 +1,12 @@
 # Dapr - Vantagens
 
 ## De modo geral
-- Agnostico tanto em linguagem como em plataforma
+- Agnóstico tanto em linguagem como em plataforma
     - Qualquer linguagem pode fazer uso do Dapr por meio de sua API HTTP ou gRPC
     - Pode ser executado tanto em Cloud com Kubernetes como em uma máquina "self-hosted"
 
 ## Service-to-Service invocation
-- Torna fácil de encontrar os micro-servicos na rede interna
+- Torna fácil de encontrar os microserviços na rede interna
 - É uma comunicação segura (toda em gRPC)
 
 
@@ -17,7 +17,7 @@
     - Posso usar uma diversidade de linguagens. A API REST é muito comum e grande maioria das linguagens poderão usá-la.
 
 ### Em usar o componente de Estados
-- Posso salvar o estado da minha aplicação com frequência suficiente para recupar logo em seguida;
+- Posso salvar o estado da minha aplicação com frequência suficiente para recuperar logo em seguida;
 - Posso alterar o componente de estados sem alterar o código da minha aplicação;
     - Altero apenas algumas linhas no arquivo de configuração do componente.
 
@@ -27,6 +27,8 @@
 
 
 ## [Secrets store](5.%20Secrets%20store/Secrets%20store.md)
+- Conseguir os *secrets* sem estar amarrado a uma SDK específica (AWS, HashiCorp, GCP, etc)
+    - Se a linguagem que estou usando não tem uma SDK nativa para meu serviço de *secrets*, posso simplesmente usar o Dapr
 
 
 ## [Middleware](8.%20Middleware/Middleware.md)

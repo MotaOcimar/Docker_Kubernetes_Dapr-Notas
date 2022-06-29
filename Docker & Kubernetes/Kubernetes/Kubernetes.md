@@ -4,7 +4,7 @@
 - Sistema para executar vários containers diferentes em várias máquinas diferentes.
 
 ## Por que usar?
-Para gerenciar os multipos containers nas multiplas máquinas:
+Para gerenciar os múltiplos containers nas múltiplas máquinas:
 - Escalar/replicar containers sem necessariamente replicar toda a aplicação
 
 ## Alguns conceitos:
@@ -120,9 +120,17 @@ Possui sub-tipos:
 1. Executa ```minikube docker-env```
 2. Segue os passos ali informados
 
-##### Executar pods como se fossem containers
+##### Executar comandos dentro de pods
 ```kubectl exec -it <pod-name> <command>```
 Obs.: funciona também para alguns outros comandos ```docker```
+
+##### Push de uma imagem diretamente no Minikube
+> Para evitar dar push em um repositório externo
+- Para imagem já gerada usando Docker:
+`minikube image load <image-name>`
+- Para gerar imagem diretamente no Minikube:
+`minikube image build -t <image-name> <directory>`
+
 
 ## Docker-compose -> Kubernetes
 ![Pasted image 20210315105217.png](Media/Pasted%20image%2020210315105217.png)
