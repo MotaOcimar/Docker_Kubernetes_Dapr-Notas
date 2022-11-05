@@ -8,9 +8,7 @@
 ## Kubernetes
 ### Intalações:
 #### Minikube
-- No Windows:
-    - Dê preferencia por executar o minikube em um *powershell* com permissões de admin
-    - Ao iniciar, garanta que está usando a flag ```--driver=hyperv```. Ou seja, o comando ```minikube start --driver=hyperv```
+- No Windows dê preferencia por executar o _Minikube_ em um *powershell* com permissões de admin
 
 #### Kubernetes
 - Caso vá instalá-lo pelo Docker Desktop, é possível que ele fique [carregando infinitamente](https://github.com/docker/for-mac/issues/2990). Tente clicar em "Reset Kubernetes cluster".

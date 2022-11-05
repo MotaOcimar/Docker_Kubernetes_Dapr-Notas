@@ -8,8 +8,7 @@ Se continuar sem funcionar, olhe a [documentação](https://docs.dapr.io/operati
 
 ## Usando o Skaffold com o Dapr (Desenvolvimento contínuo)
 - Lembre de iniciar o minikube
-> Linux: `minikube start`
-> Windows: `minikube start --driver=hyperv`
+> `minikube start`
 - Lembre de iniciar o Dapr da mesma forma que faria antes (`dapr init --kubernetes --wait`)
 - Lembre de instalar os containers auxiliares da mesma forma que faria antes (ex.: Redis com `helm install redis bitnami/redis`)
 - Se der erro "`can't be pulled`" tente mudar `buil.local.push` para `true` no arquivo `skaffold.yaml`

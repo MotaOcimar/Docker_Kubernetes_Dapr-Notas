@@ -104,8 +104,8 @@ Possui sub-tipos:
 - Minikube: Gerencia um cluster virtual. Roda em uma máquina local.
 
 #### Alguns comandos
-##### Iniciar cluster no windows:
-```minikube start --driver=hyperv```
+##### Iniciar cluster
+```minikube start```
 
 ##### Deletar clusters anteriores:
 ```minikube delete```

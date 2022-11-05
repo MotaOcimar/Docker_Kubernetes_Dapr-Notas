@@ -33,10 +33,32 @@ Vai ser executado em algo parecido com NameSpace e CGroups
 ### Parar a execução de uma imagem
 ` docker stop <container-id>`
 
-### Executar comandos dentro de um conteiner em execução
+### Executar comandos dentro de um container em execução
 - ```docker exec -it <container-id> <command>```
     - ```it``` formata as entradas e saídas no seu terminal
-    - **Bizu**:```docker exec -it <container-id> sh``` -> abre um terminal bash interativo no coteiner 
+    - **Bizu**:```docker exec -it <container-id> sh``` -> abre um terminal bash interativo no container 
+
+
+### Limpando
+Remover todos os containers parados:
+```
+docker container prune
+```
+
+Remover imagens geradas mas não nomeadas:
+```
+docker image prune
+```
+
+E remover todas as imagens não usadas nem referenciadas:
+```
+docker image prune -a
+```
+
+Remover tudão
+```
+docker system prune
+```
 
 
 ## Criando uma imagem docker

@@ -34,7 +34,7 @@ spec:
         ports:
         - containerPort: 9411
 ~~~
-(Para o ZipKin, [sua imagem docker é openzipkin/zipkin e sua porta padrão é 9511](https://zipkin.io/pages/quickstart.html#docker))
+(Para o ZipKin, [sua imagem docker é openzipkin/zipkin e sua porta padrão é 9411](https://zipkin.io/pages/quickstart.html#docker))
 
 ### Criando um _ClusterIP_ para o Zipkin
 Sem o sidecar no pod do Zipkin, o Dapr se comunicará com ele diretamente pela rede do Kubernetes. Para isso se efetivar, precisaremos de um _service ClusterIP_, [como de costume](../../Docker%20&%20Kubernetes/Kubernetes/Kubernetes.md#ClusterIP):
