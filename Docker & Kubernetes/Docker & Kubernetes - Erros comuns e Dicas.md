@@ -11,6 +11,7 @@
 - No Windows dê preferencia por executar o _Minikube_ em um *powershell* com permissões de admin
 
 #### Kubernetes
+- Dê preferência por usar o Kubernetes do Minikube, sem instalar o do Docker-Desktop. Algumas vezes aqui tive comportamentos inesperados;
 - Caso vá instalá-lo pelo Docker Desktop, é possível que ele fique [carregando infinitamente](https://github.com/docker/for-mac/issues/2990). Tente clicar em "Reset Kubernetes cluster".
 
 ### [[Docker & Kubernetes/Kubernetes/Kubernetes#2 Criar config-files para cada objeto|Criando a config-files para cada objeto]]

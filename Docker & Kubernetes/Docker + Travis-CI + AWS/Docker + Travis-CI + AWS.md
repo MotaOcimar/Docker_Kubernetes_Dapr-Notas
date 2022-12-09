@@ -1,4 +1,4 @@
-# Continous Integration with Travis-CI + AWS
+# Continuous Integration with Travis-CI + AWS
 
 ## General Flow:
 ![Media/Pasted image 20210311101819.png](Media/Pasted%20image%2020210311101819.png)
@@ -7,7 +7,7 @@
 ![Media/Pasted image 20210311103502.png](Media/Pasted%20image%2020210311103502.png)
 #### Instruindo Travis o que fazer:
 Cria um arquivo chamado ```.travis.yml``` no diretório principal:
-~~~yml
+```yaml
 # Define a linguage. No nosso caso é 'generic'
 language: generic 
 # Avisa que precisamos de root
@@ -55,7 +55,7 @@ deploy:
   # Elas são obtidas no serviço IAM da aws
   access_key_id:      $AWS_ACCESS_KEY
   secret_access_key:  $AWS_SECRET_KEY
-~~~
+```
 
 
 

@@ -142,4 +142,4 @@ Isso vai depender do provedor que você está usando. Caso esteja rodando localm
 kubectl port-forward service/frontend-service 80:80
 ~~~
 
-Isso fará a aplicação estar disponível em http://localhost:80/ (ou simplismente http://localhost/).
+Isso fará a aplicação estar disponível em http://localhost:80/ (ou simplesmente http://localhost/).

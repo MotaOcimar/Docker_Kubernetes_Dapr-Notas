@@ -10,10 +10,10 @@ Seguindo o [Quickstrat](https://github.com/dapr/quickstarts), vamos fazer uma ap
 - Redis Stream como componente pubsub.
 
 Simplificadamente, a arquitetura seria:
-![Local Architecture Diagram](https://github.com/dapr/quickstarts/raw/master/pub-sub/img/Local_Architecture_Diagram.png)
+![Local Architecture Diagram](https://github.com/dapr/quickstarts/raw/master/tutorials/pub-sub/img/Local_Architecture_Diagram.png)
 
 Como usaremos o Kubernetes,  a arquitetura será mais parecida com:
-![K8s Architecture Diagram](https://github.com/dapr/quickstarts/raw/master/pub-sub/img/K8s_Architecture_Diagram.png)
+![K8s Architecture Diagram](https://github.com/dapr/quickstarts/raw/master/tutorials/pub-sub/img/K8s_Architecture_Diagram.png)
 
 > Obs.: Vou reconstituir uma versão simplificada do [exemplo original](https://github.com/dapr/quickstarts/tree/master/pub-sub), sem o front-end em React.
 
@@ -253,9 +253,9 @@ Isso vai depender do provedor que você está usando. Caso esteja rodando localm
 kubectl port-forward service/publisher-service 8000:80
 ~~~
 
-Isso fará a aplicação estar disponível em http://localhost:80/ (ou simplismente http://localhost/).
+Isso fará a aplicação estar disponível em http://localhost:8000/.
 
-Agora envie jsons como
+Agora faça requestes do tipo POST para  http://localhost:8000/publish com jsons semelhantes ao seguinte:
 ~~~json
 {
     "type": "A",
